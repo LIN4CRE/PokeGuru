@@ -60,9 +60,10 @@ export function useCardSearch(
   query: string,
   type: CardType,
   sort: SortOption,
-  page: number,
+  page: number = 1,
   filters: { rarity?: string; supertype?: string; setId?: string } = {},
-  retryKey?: number
+  retryKey?: number,
+  pageSize: number = 24
 ) {
   const [state, setState] = useState<UseApiState<ApiResponse<PokemonCard[]>>>({
     data: null,
@@ -85,7 +86,7 @@ export function useCardSearch(
       try {
         const data = await api.searchCards(query, {
           page,
-          pageSize: 24,
+          pageSize,
           orderBy,
           type: type || undefined,
           rarity: filters.rarity || undefined,

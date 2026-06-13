@@ -1,11 +1,10 @@
-import { useState } from 'react';
+import { useState, useEffect, useRef } from 'react';
 import { useSearchParams } from 'react-router-dom';
 import { useCardSearch, useSets } from '../hooks/useApi';
 import { useTitle } from '../hooks/useTitle';
 import { getCardValueGBP } from '../utils/pricing';
 import type { CardType, SortOption } from '../types/pokemon';
 import CardGrid from '../components/Cards/CardGrid';
-import Pagination from '../components/UI/Pagination';
 import SkeletonGrid from '../components/UI/SkeletonGrid';
 import ErrorMessage from '../components/UI/ErrorMessage';
 
@@ -55,6 +54,8 @@ const SORT_OPTIONS: { value: SortOption; label: string }[] = [
 export default function SearchPage() {
   const [searchParams, setSearchParams] = useSearchParams();
   const [retryCount, setRetryCount] = useState(0);
+  const [displayCount, setDisplayCount] = useState(24);
+  const sentinelRef = useRef<HTMLDivElement>(null);
 
   const query = searchParams.get('q') || '';
   useTitle(query ? `Search: ${query}` : 'Search');
@@ -63,17 +64,40 @@ export default function SearchPage() {
   const supertype = searchParams.get('supertype') || '';
   const setId = searchParams.get('set') || '';
   const sort = (searchParams.get('sort') || '') as SortOption;
-  const page = parseInt(searchParams.get('page') || '1', 10);
 
   const { data: sets } = useSets();
   const { data, loading, error } = useCardSearch(
     query,
     type,
     sort,
-    page,
+    1,
     { rarity, supertype, setId },
-    retryCount
+    retryCount,
+    250
   );
+
+  // Reset display count when data or filters change
+  useEffect(() => {
+    setDisplayCount(24);
+  }, [query, type, rarity, supertype, setId, sort]);
+
+  // Infinite scroll via IntersectionObserver
+  useEffect(() => {
+    const sentinel = sentinelRef.current;
+    if (!sentinel) return;
+
+    const observer = new IntersectionObserver(
+      (entries) => {
+        if (entries[0].isIntersecting && data?.data) {
+          setDisplayCount(prev => Math.min(prev + 24, data.data.length));
+        }
+      },
+      { rootMargin: '400px' }
+    );
+
+    observer.observe(sentinel);
+    return () => observer.disconnect();
+  }, [data?.data.length]);
 
   const updateParams = (updates: Record<string, string>) => {
     const newParams = new URLSearchParams(searchParams);
@@ -84,10 +108,6 @@ export default function SearchPage() {
         newParams.delete(key);
       }
     });
-    // Reset to page 1 when filters change
-    if (!('page' in updates)) {
-      newParams.set('page', '1');
-    }
     setSearchParams(newParams);
   };
 
@@ -97,12 +117,6 @@ export default function SearchPage() {
 
   const handleSortChange = (newSort: string) => {
     updateParams({ sort: newSort });
-  };
-
-  const handlePageChange = (newPage: number) => {
-    updateParams({ page: String(newPage) });
-    // Scroll to top
-    window.scrollTo({ top: 0, behavior: 'smooth' });
   };
 
   return (
@@ -208,19 +222,18 @@ export default function SearchPage() {
 
       {data && (
         <>
-          <CardGrid cards={
-            sort === 'value_high'
+          {(() => {
+            const sorted = sort === 'value_high'
               ? [...data.data].sort((a, b) => getCardValueGBP(b) - getCardValueGBP(a))
               : sort === 'value_low'
               ? [...data.data].sort((a, b) => getCardValueGBP(a) - getCardValueGBP(b))
-              : data.data
-          } />
-          <Pagination
-            currentPage={page}
-            totalCount={data.totalCount || 0}
-            pageSize={24}
-            onPageChange={handlePageChange}
-          />
+              : data.data;
+            const visible = sorted.slice(0, displayCount);
+            return <CardGrid cards={visible} />;
+          })()}
+          {displayCount < (data.data?.length || 0) && (
+            <div ref={sentinelRef} className="h-10" />
+          )}
         </>
       )}
     </div>
