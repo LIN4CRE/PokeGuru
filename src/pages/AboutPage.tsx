@@ -130,7 +130,7 @@ export default function AboutPage() {
             <ul className="space-y-5 text-sm">
               <li className="flex items-center justify-between">
                 <span className="font-bold text-[var(--muted)] uppercase tracking-tighter text-[10px]">Stable Version</span>
-                <span className="font-mono font-black text-[var(--text)]">1.5.5</span>
+                <span className="font-mono font-black text-[var(--text)]">1.5.6</span>
               </li>
               <li className="flex items-center justify-between">
                 <span className="font-bold text-[var(--muted)] uppercase tracking-tighter text-[10px]">Build Health</span>
