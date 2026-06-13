@@ -1,3 +1,4 @@
+import { useState } from 'react';
 import { useSearchParams } from 'react-router-dom';
 import { useCardSearch } from '../hooks/useApi';
 import type { CardType, SortOption } from '../types/pokemon';
@@ -29,13 +30,14 @@ const SORT_OPTIONS: { value: SortOption; label: string }[] = [
 
 export default function SearchPage() {
   const [searchParams, setSearchParams] = useSearchParams();
+  const [retryCount, setRetryCount] = useState(0);
   
   const query = searchParams.get('q') || '';
   const type = (searchParams.get('type') || '') as CardType;
   const sort = (searchParams.get('sort') || '') as SortOption;
   const page = parseInt(searchParams.get('page') || '1', 10);
 
-  const { data, loading, error } = useCardSearch(query, type, sort, page);
+  const { data, loading, error } = useCardSearch(query, type, sort, page, retryCount);
 
   const updateParams = (updates: Record<string, string>) => {
     const newParams = new URLSearchParams(searchParams);
@@ -116,7 +118,7 @@ export default function SearchPage() {
       {error && (
         <ErrorMessage 
           message={error}
-          onRetry={() => window.location.reload()}
+          onRetry={() => setRetryCount(c => c + 1)}
         />
       )}
 

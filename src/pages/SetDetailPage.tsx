@@ -10,7 +10,8 @@ import ErrorMessage from '../components/UI/ErrorMessage';
 export default function SetDetailPage() {
   const { id } = useParams<{ id: string }>();
   const [page, setPage] = useState(1);
-  const { data, loading, set, setError } = useSetCards(id || '', page);
+  const [retryCount, setRetryCount] = useState(0);
+  const { data, loading, set, setError } = useSetCards(id || '', page, retryCount);
 
   const handlePageChange = (newPage: number) => {
     setPage(newPage);
@@ -25,7 +26,7 @@ export default function SetDetailPage() {
     return (
       <ErrorMessage 
         message={setError}
-        onRetry={() => window.location.reload()}
+        onRetry={() => setRetryCount(c => c + 1)}
       />
     );
   }

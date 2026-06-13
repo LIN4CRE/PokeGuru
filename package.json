@@ -1,7 +1,13 @@
 {
-  "name": "react-vite-tailwind",
+  "name": "pokeguru",
   "private": true,
-  "version": "0.0.0",
+  "version": "1.0.0",
+  "description": "Pokémon TCG card database with pricing, set browsing, and card scanning",
+  "author": "Linacre",
+  "license": "MIT",
+  "repository": "github:Linacre/PokeGuru",
+  "bugs": "https://github.com/Linacre/PokeGuru/issues",
+  "homepage": "https://linacre.github.io/PokeGuru",
   "type": "module",
   "scripts": {
     "dev": "vite",

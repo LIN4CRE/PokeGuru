@@ -1,4 +1,5 @@
-import { useParams, Link } from 'react-router-dom';
+import { useState } from 'react';
+import { useParams, useNavigate, Link } from 'react-router-dom';
 import { ArrowLeft, ExternalLink } from 'lucide-react';
 import { useCard } from '../hooks/useApi';
 import LoadingSpinner from '../components/UI/LoadingSpinner';
@@ -35,7 +36,9 @@ function getBestPrice(card: PokemonCard): { label: string; price: TCGPlayerPrice
 
 export default function CardDetailPage() {
   const { id } = useParams<{ id: string }>();
-  const { data: card, loading, error } = useCard(id || '');
+  const navigate = useNavigate();
+  const [retryCount, setRetryCount] = useState(0);
+  const { data: card, loading, error } = useCard(id || '', retryCount);
 
   if (loading) {
     return <LoadingSpinner message="Loading card details..." />;
@@ -45,7 +48,7 @@ export default function CardDetailPage() {
     return (
       <ErrorMessage 
         message={error || 'Card not found'}
-        onRetry={() => window.location.reload()}
+        onRetry={() => setRetryCount(c => c + 1)}
       />
     );
   }
@@ -55,17 +58,13 @@ export default function CardDetailPage() {
   return (
     <div>
       {/* Back Link */}
-      <Link
-        to={-1 as any}
-        className="mb-6 inline-flex items-center gap-1.5 text-sm text-[var(--muted)] hover:text-[var(--text)] hover:no-underline"
-        onClick={(e) => {
-          e.preventDefault();
-          window.history.back();
-        }}
+      <button
+        onClick={() => navigate(-1)}
+        className="mb-6 inline-flex cursor-pointer items-center gap-1.5 text-sm text-[var(--muted)] hover:text-[var(--text)]"
       >
         <ArrowLeft size={16} />
         Back
-      </Link>
+      </button>
 
       <div className="grid gap-8 md:grid-cols-[minmax(220px,360px)_1fr]">
         {/* Card Image */}

@@ -5,7 +5,8 @@ import LoadingSpinner from '../components/UI/LoadingSpinner';
 import ErrorMessage from '../components/UI/ErrorMessage';
 
 export default function SetsPage() {
-  const { data: sets, loading, error } = useSets();
+  const [retryCount, setRetryCount] = useState(0);
+  const { data: sets, loading, error } = useSets(retryCount);
   const [searchQuery, setSearchQuery] = useState('');
   const [selectedSeries, setSelectedSeries] = useState('');
 
@@ -35,7 +36,7 @@ export default function SetsPage() {
     return (
       <ErrorMessage 
         message={error}
-        onRetry={() => window.location.reload()}
+        onRetry={() => setRetryCount(c => c + 1)}
       />
     );
   }

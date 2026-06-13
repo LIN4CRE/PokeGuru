@@ -18,7 +18,7 @@ interface UseApiState<T> {
 /**
  * Hook for fetching featured cards on the home page
  */
-export function useFeaturedCards() {
+export function useFeaturedCards(retryKey?: number) {
   const [state, setState] = useState<UseApiState<PokemonCard[]>>({
     data: null,
     loading: true,
@@ -27,6 +27,7 @@ export function useFeaturedCards() {
 
   useEffect(() => {
     let mounted = true;
+    setState(prev => ({ ...prev, loading: true, error: null }));
 
     async function fetchData() {
       try {
@@ -47,7 +48,7 @@ export function useFeaturedCards() {
 
     fetchData();
     return () => { mounted = false; };
-  }, []);
+  }, [retryKey]);
 
   return state;
 }
@@ -59,7 +60,8 @@ export function useCardSearch(
   query: string,
   type: CardType,
   sort: SortOption,
-  page: number
+  page: number,
+  retryKey?: number
 ) {
   const [state, setState] = useState<UseApiState<ApiResponse<PokemonCard[]>>>({
     data: null,
@@ -103,7 +105,7 @@ export function useCardSearch(
     }
 
     fetchData();
-  }, [query, type, sort, page]);
+  }, [query, type, sort, page, retryKey]);
 
   return state;
 }
@@ -111,7 +113,7 @@ export function useCardSearch(
 /**
  * Hook for fetching a single card
  */
-export function useCard(id: string) {
+export function useCard(id: string, retryKey?: number) {
   const [state, setState] = useState<UseApiState<PokemonCard>>({
     data: null,
     loading: true,
@@ -141,7 +143,7 @@ export function useCard(id: string) {
 
     fetchData();
     return () => { mounted = false; };
-  }, [id]);
+  }, [id, retryKey]);
 
   return state;
 }
@@ -149,7 +151,7 @@ export function useCard(id: string) {
 /**
  * Hook for fetching all sets
  */
-export function useSets() {
+export function useSets(retryKey?: number) {
   const [state, setState] = useState<UseApiState<PokemonSet[]>>({
     data: null,
     loading: true,
@@ -178,7 +180,7 @@ export function useSets() {
 
     fetchData();
     return () => { mounted = false; };
-  }, []);
+  }, [retryKey]);
 
   return state;
 }
@@ -186,7 +188,7 @@ export function useSets() {
 /**
  * Hook for fetching cards from a specific set
  */
-export function useSetCards(setId: string, page: number = 1) {
+export function useSetCards(setId: string, page: number = 1, retryKey?: number) {
   const [state, setState] = useState<UseApiState<ApiResponse<PokemonCard[]>>>({
     data: null,
     loading: true,
@@ -216,7 +218,7 @@ export function useSetCards(setId: string, page: number = 1) {
 
     fetchSet();
     return () => { mounted = false; };
-  }, [setId]);
+  }, [setId, retryKey]);
 
   // Fetch set cards
   useEffect(() => {
@@ -242,7 +244,7 @@ export function useSetCards(setId: string, page: number = 1) {
 
     fetchCards();
     return () => { mounted = false; };
-  }, [setId, page]);
+  }, [setId, page, retryKey]);
 
   return {
     ...state,
