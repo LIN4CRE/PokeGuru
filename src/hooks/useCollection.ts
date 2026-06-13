@@ -21,12 +21,6 @@ export function useCollection() {
     }
   }, []);
 
-  // Save to localStorage
-  const saveCollection = useCallback((newItems: CollectionItem[]) => {
-    localStorage.setItem('pokeguru_collection', JSON.stringify(newItems));
-    setCollection(newItems);
-  }, []);
-
   const addToCollection = useCallback((card: PokemonCard) => {
     setCollection(prev => {
       if (prev.some(item => item.card.id === card.id)) return prev;

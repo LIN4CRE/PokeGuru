@@ -1,9 +1,9 @@
 import { useState, FormEvent } from 'react';
 import { useNavigate, Link } from 'react-router-dom';
-import { Book, Layers } from 'lucide-react';
+import { Book, Layers, Wallet } from 'lucide-react';
 import { useFeaturedCards } from '../hooks/useApi';
 import { useTitle } from '../hooks/useTitle';
-import { getTotalSetCount, getTotalCardCount } from '../data/ukSets';
+import { getTotalSetCount } from '../data/ukSets';
 import CardGrid from '../components/Cards/CardGrid';
 import LoadingSpinner from '../components/UI/LoadingSpinner';
 

@@ -1,4 +1,4 @@
-import { Book, Search, Layers, Code, ExternalLink, ShieldCheck, Zap, Heart, Trophy, Globe } from 'lucide-react';
+import { Book, Code, ExternalLink, Zap, Heart, Trophy, Globe } from 'lucide-react';
 import { useTitle } from '../hooks/useTitle';
 
 export default function AboutPage() {

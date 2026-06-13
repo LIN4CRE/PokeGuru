@@ -1,6 +1,6 @@
 import { useState } from 'react';
 import { useParams, useNavigate, Link } from 'react-router-dom';
-import { ArrowLeft, ExternalLink, TrendingUp, Heart, Wallet, Box } from 'lucide-react';
+import { ArrowLeft, ExternalLink, TrendingUp, Heart, Box } from 'lucide-react';
 import { useCard, useCardSearch } from '../hooks/useApi';
 import { useTitle } from '../hooks/useTitle';
 import { getAllSets } from '../data/ukSets';
