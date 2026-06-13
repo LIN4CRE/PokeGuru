@@ -1,42 +1,26 @@
-/* PokeGuru — a fast, open Pokémon card database. */
+/* PokeGuru — a fast, open Pokémon card database.
+ * Static SPA using the public Pokémon TCG API (https://pokemontcg.io).
+ * Hash-based routing so it works on GitHub Pages with no build step.
+ */
 
 const API = "https://api.pokemontcg.io/v2";
+
+// Optional: paste a pokemontcg.io API key here for higher rate limits.
+// Leaving it empty works fine for personal use.
 const API_KEY = "";
-const cache = new Map();
+
 const app = document.getElementById("app");
 
 /* ---------- helpers ---------- */
 
-// Persistent-ish cache: also try to use sessionStorage for slightly better persistence across refreshes
-function getCache(key) {
-  if (cache.has(key)) return cache.get(key);
-  try {
-    const sessionData = sessionStorage.getItem(`pg_cache_${key}`);
-    if (sessionData) {
-      const parsed = JSON.parse(sessionData);
-      cache.set(key, parsed);
-      return parsed;
-    }
-  } catch (e) {}
-  return null;
-}
-
-function setCache(key, value) {
-  cache.set(key, value);
-  try {
-    sessionStorage.setItem(`pg_cache_${key}`, JSON.stringify(value));
-  } catch (e) {}
+function headers() {
+  return API_KEY ? { "X-Api-Key": API_KEY } : {};
 }
 
 async function apiGet(path) {
-  const cached = getCache(path);
-  if (cached) return cached;
-  
   const res = await fetch(`${API}${path}`, { headers: headers() });
   if (!res.ok) throw new Error(`API error ${res.status}`);
-  const data = await res.json();
-  setCache(path, data);
-  return data;
+  return res.json();
 }
 
 function esc(s) {
@@ -47,23 +31,8 @@ function esc(s) {
     .replace(/"/g, "&quot;");
 }
 
-function setLoading(msg = "Loading…", type = "spinner") {
-  if (type === "grid") {
-    app.innerHTML = `
-      <div class="skeleton-grid">
-        ${Array(12).fill('<div class="skeleton-card"></div>').join("")}
-      </div>`;
-  } else {
-    app.innerHTML = `
-      <div class="loading">
-        <div class="loading-spinner"></div>
-        <span>${esc(msg)}</span>
-      </div>`;
-  }
-  // Restart the fadeIn animation on every new view
-  app.style.animation = "none";
-  app.offsetHeight; // trigger reflow
-  app.style.animation = null;
+function setLoading(msg = "Loading…") {
+  app.innerHTML = `<div class="loading">${esc(msg)}</div>`;
 }
 
 function showError(msg) {
@@ -77,9 +46,7 @@ function cardTile(card) {
     .join(" · ");
   return `
     <a class="card-tile" href="#/card/${esc(card.id)}">
-      <div class="img-container">
-        <img loading="lazy" src="${esc(img)}" alt="${esc(card.name)}" onload="this.parentElement.classList.add('loaded')" />
-      </div>
+      <img loading="lazy" src="${esc(img)}" alt="${esc(card.name)}" />
       <div class="card-meta">
         <div class="card-name">${esc(card.name)}</div>
         <div class="card-sub">${esc(sub)}</div>
@@ -132,7 +99,9 @@ async function viewHome() {
         <a href="#/search?q=charizard">charizard</a> ·
         <a href="#/search?q=subtypes:mega">subtypes:mega</a> ·
         <a href="#/search?q=types:dragon">types:dragon</a>
+        or <a href="#/sets">Browse by set</a>
       </p>
+      <p class="hints"><a class="scan-cta" href="#/scan">📷 Scan a card to look it up</a></p>
     </section>
 
     <div class="section-title"><h2>Fresh holos</h2></div>
@@ -167,7 +136,7 @@ async function viewSearch(params) {
   document.getElementById("header-search-input").value = raw;
   document.getElementById("hero-search-input")?.setAttribute("value", raw);
 
-  setLoading(`Searching for "${raw}"…`, "grid");
+  setLoading(`Searching for "${raw}"…`);
 
   let qParts = [buildQuery(raw)].filter(Boolean);
   if (type) qParts.push(`types:${type}`);
@@ -261,7 +230,7 @@ async function viewSets() {
 async function viewSet(id, params) {
   const page = parseInt(params.get("page") || "1", 10);
   const pageSize = 36;
-  setLoading("Loading set…", "grid");
+  setLoading("Loading set…");
   try {
     const [setData, cardsData] = await Promise.all([
       apiGet(`/sets/${encodeURIComponent(id)}`),
@@ -553,11 +522,11 @@ async function lookupScan(name, number, statusEl) {
 async function processScanImage(source, statusEl, resultEl) {
   const setStatus = (m) => { if (statusEl) statusEl.textContent = m; };
   resultEl.innerHTML = "";
-  setStatus("Reading the card…");
+  setStatus("Reading the card… (this can take a few seconds)");
 
   if (typeof Tesseract === "undefined") {
     setStatus("");
-    resultEl.innerHTML = `<div class="error">The OCR engine couldn't load. Please check your connection.</div>`;
+    resultEl.innerHTML = `<div class="error">The OCR engine couldn't load. Check your connection and try again.</div>`;
     return;
   }
 

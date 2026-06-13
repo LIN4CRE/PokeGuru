@@ -1,46 +1,16 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="en">
-<head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>PokeGuru — The Pokémon Card Database</title>
-  <meta name="description" content="PokeGuru — search, browse, scan and explore Pokémon TCG cards. A fast, open Pokémon card database." />
-  <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Ccircle cx='50' cy='50' r='46' fill='%23ef4444' stroke='%23111' stroke-width='6'/%3E%3Cpath d='M4 50h92' stroke='%23111' stroke-width='8'/%3E%3Ccircle cx='50' cy='50' r='16' fill='%23fff' stroke='%23111' stroke-width='8'/%3E%3C/svg%3E" />
-  <link rel="stylesheet" href="styles.css" />
-</head>
-<body>
-  <header class="site-header">
-    <a class="brand" href="#/">
-      <span class="brand-ball" aria-hidden="true"></span>
-      <span class="brand-text">Poke<strong>Guru</strong></span>
-    </a>
-    <form class="header-search" id="header-search">
-      <input type="search" id="header-search-input" placeholder='Try "charizard" or "subtypes:mega"' aria-label="Search cards" autocomplete="off" />
-      <button type="submit" aria-label="Search">🔍</button>
-    </form>
-    <nav class="header-nav">
-      <a href="#/">Home</a>
-      <a href="#/sets">Sets</a>
-      <a href="#/scan">📷 Scan</a>
-    </nav>
-  </header>
-
-  <main id="app">
-    <div class="loading">Loading…</div>
-  </main>
-
-  <footer class="site-footer">
-    <p>
-      <strong>PokeGuru</strong> · a fast, open Pokémon card database.
-    </p>
-    <p class="muted">
-      Card data &amp; images from the <a href="https://pokemontcg.io" target="_blank" rel="noopener">Pokémon TCG API</a>.
-      Pokémon and all related names are trademarks of Nintendo, Game Freak &amp; The Pokémon Company. This is an unofficial, non-commercial fan project.
-    </p>
-  </footer>
-
-  <!-- Tesseract.js (OCR) for the card scanner -->
-  <script src="https://cdn.jsdelivr.net/npm/tesseract.js@5/dist/tesseract.min.js"></script>
-  <script src="app.js"></script>
-</body>
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>PokeGuru — The Pokémon Card Database</title>
+    <meta name="description" content="A fast, open Pokémon TCG card database. Search cards, browse sets, and view detailed card information with market prices." />
+    <meta name="theme-color" content="#0f1115" />
+    <link rel="preconnect" href="https://api.pokemontcg.io" />
+    <link rel="preconnect" href="https://images.pokemontcg.io" />
+  </head>
+  <body>
+    <div id="root"></div>
+    <script type="module" src="/src/main.tsx"></script>
+  </body>
 </html>
