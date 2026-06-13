@@ -87,6 +87,3 @@ Released under the [MIT License](./LICENSE).
 
 Pokémon and all related names are trademarks of Nintendo, Game Freak and
 The Pokémon Company. This is an unofficial, non-commercial fan project.
-# PokeGuru
-# PokeGuru
-# PokeGuru

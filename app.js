@@ -669,16 +669,33 @@ async function viewScan() {
     if (!scanStream) return;
     const w = video.videoWidth, h = video.videoHeight;
     if (!w || !h) return;
+    captureBtn.disabled = true;
+    startBtn.disabled = true;
     canvas.width = w; canvas.height = h;
     canvas.getContext("2d").drawImage(video, 0, 0, w, h);
     canvas.toBlob((blob) => {
-      if (blob) processScanImage(blob, statusEl, resultEl);
+      if (blob) {
+        processScanImage(blob, statusEl, resultEl).finally(() => {
+          captureBtn.disabled = false;
+          startBtn.disabled = false;
+        });
+      } else {
+        captureBtn.disabled = false;
+        startBtn.disabled = false;
+      }
     }, "image/jpeg", 0.95);
   });
 
   fileInput.addEventListener("change", () => {
     const file = fileInput.files?.[0];
-    if (file) processScanImage(file, statusEl, resultEl);
+    if (file) {
+      captureBtn.disabled = true;
+      startBtn.disabled = true;
+      processScanImage(file, statusEl, resultEl).finally(() => {
+        captureBtn.disabled = false;
+        startBtn.disabled = false;
+      });
+    }
   });
 
   const wireClear = () => {
