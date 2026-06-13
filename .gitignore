@@ -22,6 +22,9 @@ out/
 .env.development.local
 .env.production.local
 
+# AI / IDE assistant config
+.codex/
+
 # Coverage / test artifacts
 coverage/
 *.tsbuildinfo
