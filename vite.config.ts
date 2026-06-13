@@ -9,8 +9,7 @@ const __dirname = path.dirname(__filename);
 
 // https://vite.dev/config/
 export default defineConfig({
-  // Use relative base for maximum compatibility with GitHub Pages
-  base: "./",
+  base: "/PokeGuru/",
   plugins: [react(), tailwindcss()],
   resolve: {
     alias: {
