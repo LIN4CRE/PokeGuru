@@ -1,14 +1,15 @@
 import { useState } from 'react';
 import { useParams, useNavigate, Link } from 'react-router-dom';
-import { ArrowLeft, ExternalLink } from 'lucide-react';
+import { ArrowLeft, ExternalLink, TrendingUp } from 'lucide-react';
 import { useCard } from '../hooks/useApi';
+import { getAllSets } from '../data/ukSets';
 import LoadingSpinner from '../components/UI/LoadingSpinner';
 import ErrorMessage from '../components/UI/ErrorMessage';
 import type { PokemonCard, TCGPlayerPrice } from '../types/pokemon';
 
-function formatPrice(price: number | undefined): string {
-  if (price === undefined || price === null) return '—';
-  return `$${price.toFixed(2)}`;
+function formatCurrency(amount: number | undefined, currency: string = '$'): string {
+  if (amount === undefined || amount === null) return '—';
+  return `${currency}${amount.toLocaleString(undefined, { minimumFractionDigits: 2, maximumFractionDigits: 2 })}`;
 }
 
 function getBestPrice(card: PokemonCard): { label: string; price: TCGPlayerPrice } | null {
@@ -46,7 +47,7 @@ export default function CardDetailPage() {
 
   if (error || !card) {
     return (
-      <ErrorMessage 
+      <ErrorMessage
         message={error || 'Card not found'}
         onRetry={() => setRetryCount(c => c + 1)}
       />
@@ -54,6 +55,10 @@ export default function CardDetailPage() {
   }
 
   const priceInfo = getBestPrice(card);
+
+  // Get PSA 10 data from wiki
+  const wikiSets = getAllSets();
+  const wikiSet = wikiSets.find(s => s.id === card.set.id);
 
   return (
     <div>
@@ -79,9 +84,24 @@ export default function CardDetailPage() {
         {/* Card Info */}
         <div>
           <h1 className="mb-1 text-3xl font-bold">{card.name}</h1>
-          <p className="mb-5 text-[var(--muted)]">
-            {card.set.name} · #{card.number}
-          </p>
+          <div className="mb-5 flex flex-wrap items-center gap-x-3 gap-y-2 text-[var(--muted)]">
+            <p className="font-medium">
+              {card.set.name} · #{card.number}
+            </p>
+            {wikiSet && (wikiSet.psa10Avg || wikiSet.psa10Max) && (
+              <div className="flex items-center gap-2 rounded-md bg-[#10b981]/10 px-2 py-0.5 text-[10px] font-extrabold uppercase tracking-wider text-[#10b981] border border-[#10b981]/20 shadow-sm" title="Estimated PSA 10 Set Values">
+                <TrendingUp size={12} strokeWidth={3} />
+                <span>PSA 10 Wiki:</span>
+                <span className="text-[var(--text)]">
+                  {wikiSet.psa10Avg ? `~£${wikiSet.psa10Avg.toLocaleString()}` : '—'}
+                </span>
+                <span className="opacity-30">/</span>
+                <span className="text-[var(--text)]">
+                  {wikiSet.psa10Max ? `£${wikiSet.psa10Max.toLocaleString()}+` : '—'}
+                </span>
+              </div>
+            )}
+          </div>
 
           {/* Badges */}
           <div className="mb-5 flex flex-wrap gap-2">
@@ -201,25 +221,25 @@ export default function CardDetailPage() {
                 <div>
                   <p className="text-xs text-[var(--muted)]">Low</p>
                   <p className="text-lg font-semibold text-[var(--text)]">
-                    {formatPrice(priceInfo.price.low)}
+                    {formatCurrency(priceInfo.price.low)}
                   </p>
                 </div>
                 <div>
                   <p className="text-xs text-[var(--muted)]">Mid</p>
                   <p className="text-lg font-semibold text-[var(--text)]">
-                    {formatPrice(priceInfo.price.mid)}
+                    {formatCurrency(priceInfo.price.mid)}
                   </p>
                 </div>
                 <div>
                   <p className="text-xs text-[var(--muted)]">High</p>
                   <p className="text-lg font-semibold text-[var(--text)]">
-                    {formatPrice(priceInfo.price.high)}
+                    {formatCurrency(priceInfo.price.high)}
                   </p>
                 </div>
                 <div>
                   <p className="text-xs text-[var(--muted)]">Market</p>
                   <p className="text-lg font-semibold text-[var(--accent)]">
-                    {formatPrice(priceInfo.price.market)}
+                    {formatCurrency(priceInfo.price.market)}
                   </p>
                 </div>
               </div>

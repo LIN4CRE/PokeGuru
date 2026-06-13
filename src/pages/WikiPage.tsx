@@ -294,6 +294,7 @@ export default function WikiPage() {
                 <th className="px-4 py-4 font-bold text-[var(--muted)] uppercase tracking-widest text-[10px]">Set Name</th>
                 <th className="px-4 py-4 font-bold text-[var(--muted)] uppercase tracking-widest text-[10px] text-right">Cards</th>
                 <th className="px-4 py-4 font-bold text-[var(--muted)] uppercase tracking-widest text-[10px]">Release</th>
+                <th className="px-4 py-4 font-bold text-[var(--muted)] uppercase tracking-widest text-[10px] text-right">PSA 10 (Avg)</th>
                 <th className="px-4 py-4 font-bold text-[var(--muted)] uppercase tracking-widest text-[10px]">Type</th>
                 <th className="px-4 py-4 font-bold text-[var(--muted)] uppercase tracking-widest text-[10px] text-right">Links</th>
               </tr>
@@ -339,6 +340,9 @@ export default function WikiPage() {
                           month: 'short',
                           year: 'numeric',
                         })}
+                      </td>
+                      <td className="px-4 py-4 text-right tabular-nums font-bold text-[#10b981]">
+                        {set.psa10Avg ? `£${set.psa10Avg.toLocaleString()}` : '—'}
                       </td>
                       <td className="px-4 py-4">
                         <span className={`rounded-md px-2 py-0.5 text-[10px] font-bold uppercase tracking-tighter border ${
@@ -464,6 +468,12 @@ function SetRow({ set, eraColour }: { set: WikiSet; eraColour: string }) {
           <span className="font-medium text-[var(--text)]/70">{formattedDate}</span>
           <span className="opacity-20">•</span>
           <span>{set.cards} cards</span>
+          {(set.psa10Avg || set.psa10Max) && (
+            <>
+              <span className="opacity-20">•</span>
+              <span className="text-[#10b981] font-bold">PSA 10: £{set.psa10Avg?.toLocaleString() || '—'} avg</span>
+            </>
+          )}
         </p>
       </div>
 
