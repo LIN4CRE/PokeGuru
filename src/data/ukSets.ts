@@ -164,7 +164,7 @@ const UK_ERAS: WikiEra[] = [
     description: 'Mega Evolution came to the TCG alongside BREAK cards. The Kalos region brought a new design style that collectors still love.',
     colour: '#0ea5e9',
     sets: [
-      { name: 'XY', id: 'xy0', cards: 146, releaseDate: '2014-02-05', releaseYear: 2014, type: 'main' },
+      { name: 'XY', id: 'xy1', cards: 146, releaseDate: '2014-02-05', releaseYear: 2014, type: 'main' },
       { name: 'Flashfire', id: 'xy2', cards: 109, releaseDate: '2014-05-07', releaseYear: 2014, type: 'main' },
       { name: 'Furious Fists', id: 'xy3', cards: 114, releaseDate: '2014-08-13', releaseYear: 2014, type: 'main' },
       { name: 'Phantom Forces', id: 'xy4', cards: 122, releaseDate: '2014-11-05', releaseYear: 2014, type: 'main' },

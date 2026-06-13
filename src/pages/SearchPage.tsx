@@ -22,6 +22,26 @@ const CARD_TYPES: CardType[] = [
   'Water',
 ];
 
+const RARITIES = [
+  '',
+  'Common',
+  'Uncommon',
+  'Rare',
+  'Rare Holo',
+  'Rare Ultra',
+  'Rare Secret',
+  'Illustration Rare',
+  'Special Illustration Rare',
+  'Hyper Rare',
+];
+
+const SUPERTYPES = [
+  '',
+  'Pokémon',
+  'Trainer',
+  'Energy',
+];
+
 const SORT_OPTIONS: { value: SortOption; label: string }[] = [
   { value: '', label: 'Name (A–Z)' },
   { value: 'newest', label: 'Newest sets' },
@@ -31,13 +51,22 @@ const SORT_OPTIONS: { value: SortOption; label: string }[] = [
 export default function SearchPage() {
   const [searchParams, setSearchParams] = useSearchParams();
   const [retryCount, setRetryCount] = useState(0);
-  
+
   const query = searchParams.get('q') || '';
   const type = (searchParams.get('type') || '') as CardType;
+  const rarity = searchParams.get('rarity') || '';
+  const supertype = searchParams.get('supertype') || '';
   const sort = (searchParams.get('sort') || '') as SortOption;
   const page = parseInt(searchParams.get('page') || '1', 10);
 
-  const { data, loading, error } = useCardSearch(query, type, sort, page, retryCount);
+  const { data, loading, error } = useCardSearch(
+    query,
+    type,
+    sort,
+    page,
+    { rarity, supertype },
+    retryCount
+  );
 
   const updateParams = (updates: Record<string, string>) => {
     const newParams = new URLSearchParams(searchParams);
@@ -86,6 +115,19 @@ export default function SearchPage() {
       {/* Filters */}
       <div className="mb-6 flex flex-wrap gap-3">
         <select
+          value={supertype}
+          onChange={(e) => updateParams({ supertype: e.target.value })}
+          className="rounded-lg border border-[var(--border)] bg-[var(--bg-card)] px-3 py-2 text-sm text-[var(--text)] outline-none focus:border-[var(--accent)]"
+          aria-label="Filter by supertype"
+        >
+          {SUPERTYPES.map((s) => (
+            <option key={s} value={s}>
+              {s ? `Supertype: ${s}` : 'All supertypes'}
+            </option>
+          ))}
+        </select>
+
+        <select
           value={type}
           onChange={(e) => handleTypeChange(e.target.value)}
           className="rounded-lg border border-[var(--border)] bg-[var(--bg-card)] px-3 py-2 text-sm text-[var(--text)] outline-none focus:border-[var(--accent)]"
@@ -99,9 +141,22 @@ export default function SearchPage() {
         </select>
 
         <select
+          value={rarity}
+          onChange={(e) => updateParams({ rarity: e.target.value })}
+          className="rounded-lg border border-[var(--border)] bg-[var(--bg-card)] px-3 py-2 text-sm text-[var(--text)] outline-none focus:border-[var(--accent)]"
+          aria-label="Filter by rarity"
+        >
+          {RARITIES.map((r) => (
+            <option key={r} value={r}>
+              {r ? `Rarity: ${r}` : 'All rarities'}
+            </option>
+          ))}
+        </select>
+
+        <select
           value={sort}
           onChange={(e) => handleSortChange(e.target.value)}
-          className="rounded-lg border border-[var(--border)] bg-[var(--bg-card)] px-3 py-2 text-sm text-[var(--text)] outline-none focus:border-[var(--accent)]"
+          className="rounded-lg border border-[var(--border)] bg-[var(--bg-card)] px-3 py-2 text-sm text-[var(--text)] outline-none focus:border-[var(--accent)] ml-auto"
           aria-label="Sort results"
         >
           {SORT_OPTIONS.map((opt) => (
@@ -116,7 +171,7 @@ export default function SearchPage() {
       {loading && <SkeletonGrid count={24} />}
 
       {error && (
-        <ErrorMessage 
+        <ErrorMessage
           message={error}
           onRetry={() => setRetryCount(c => c + 1)}
         />

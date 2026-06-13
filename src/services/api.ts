@@ -1,6 +1,6 @@
 /**
  * Pokemon TCG API Service
- * 
+ *
  * Handles all API communication with pokemontcg.io
  * Implements caching, rate limiting awareness, and error handling
  */
@@ -125,14 +125,22 @@ export async function searchCards(
     pageSize?: number;
     orderBy?: string;
     type?: string;
+    rarity?: string;
+    supertype?: string;
   } = {}
 ): Promise<ApiResponse<PokemonCard[]>> {
-  const { page = 1, pageSize = 24, orderBy = 'name', type } = options;
+  const { page = 1, pageSize = 24, orderBy = 'name', type, rarity, supertype } = options;
 
   // Build query
   let q = buildSearchQuery(query);
   if (type) {
     q = q ? `${q} types:${type}` : `types:${type}`;
+  }
+  if (rarity) {
+    q = q ? `${q} rarity:"${rarity}"` : `rarity:"${rarity}"`;
+  }
+  if (supertype) {
+    q = q ? `${q} supertype:${supertype}` : `supertype:${supertype}`;
   }
   if (!q) {
     q = 'supertype:pokemon';
@@ -191,7 +199,7 @@ export async function getFeaturedCards(): Promise<PokemonCard[]> {
 
 /**
  * Build a search query from user input
- * 
+ *
  * If the input contains a colon (like "types:fire"), treat it as a field query.
  * Otherwise, treat it as a name search with wildcard.
  */

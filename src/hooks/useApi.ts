@@ -1,6 +1,6 @@
 /**
  * Custom hooks for API data fetching
- * 
+ *
  * Provides a clean interface for components to fetch data
  * with loading states and error handling
  */
@@ -61,6 +61,7 @@ export function useCardSearch(
   type: CardType,
   sort: SortOption,
   page: number,
+  filters: { rarity?: string; supertype?: string } = {},
   retryKey?: number
 ) {
   const [state, setState] = useState<UseApiState<ApiResponse<PokemonCard[]>>>({
@@ -76,8 +77,8 @@ export function useCardSearch(
     const currentRequest = ++requestId.current;
     setState(prev => ({ ...prev, loading: true }));
 
-    const orderBy = sort === 'newest' ? '-set.releaseDate' 
-                  : sort === 'oldest' ? 'set.releaseDate' 
+    const orderBy = sort === 'newest' ? '-set.releaseDate'
+                  : sort === 'oldest' ? 'set.releaseDate'
                   : 'name';
 
     async function fetchData() {
@@ -87,8 +88,10 @@ export function useCardSearch(
           pageSize: 24,
           orderBy,
           type: type || undefined,
+          rarity: filters.rarity || undefined,
+          supertype: filters.supertype || undefined,
         });
-        
+
         // Only update if this is still the latest request
         if (currentRequest === requestId.current) {
           setState({ data, loading: false, error: null });

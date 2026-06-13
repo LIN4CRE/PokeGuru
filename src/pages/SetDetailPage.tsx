@@ -24,15 +24,15 @@ export default function SetDetailPage() {
 
   if (setError) {
     return (
-      <ErrorMessage 
+      <ErrorMessage
         message={setError}
         onRetry={() => setRetryCount(c => c + 1)}
       />
     );
   }
 
-  const releaseDate = set?.releaseDate 
-    ? new Date(set.releaseDate).toLocaleDateString('en-US', {
+  const releaseDate = set?.releaseDate
+    ? new Date(set.releaseDate).toLocaleDateString('en-GB', {
         year: 'numeric',
         month: 'long',
         day: 'numeric',

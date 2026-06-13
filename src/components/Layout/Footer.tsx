@@ -1,4 +1,5 @@
-import { ExternalLink } from 'lucide-react';
+import { ExternalLink, Info, Hash } from 'lucide-react';
+import { Link } from 'react-router-dom';
 
 export default function Footer() {
   return (
@@ -8,20 +9,27 @@ export default function Footer() {
           <p>
             <strong className="text-[var(--text)]">PokeGuru</strong> · A fast, open Pokémon card database
           </p>
-          <p className="mt-1 text-xs">
-            Card data &amp; images from the{' '}
-            <a 
-              href="https://pokemontcg.io" 
-              target="_blank" 
+          <div className="mt-2 flex flex-wrap justify-center sm:justify-start gap-x-4 gap-y-2 text-xs">
+            <Link to="/about" className="flex items-center gap-1 hover:text-[var(--link)] transition-colors">
+              <Info size={12} />
+              About Project
+            </Link>
+            <Link to="/about#tags" className="flex items-center gap-1 hover:text-[var(--link)] transition-colors">
+              <Hash size={12} />
+              Search Tags
+            </Link>
+            <a
+              href="https://pokemontcg.io"
+              target="_blank"
               rel="noopener noreferrer"
               className="inline-flex items-center gap-1 hover:text-[var(--link)]"
             >
-              Pokémon TCG API
               <ExternalLink size={12} />
+              Pokémon TCG API
             </a>
-          </p>
+          </div>
         </div>
-        
+
         <div className="flex items-center gap-4">
           <a
             href="https://github.com/lin4cre/PokeGuru"
@@ -38,7 +46,7 @@ export default function Footer() {
           </a>
         </div>
       </div>
-      
+
       <div className="mx-auto max-w-[1180px] mt-4 pt-4 border-t border-[var(--border)] text-center text-xs text-[var(--muted)]">
         <p>
           Pokémon and all related names are trademarks of Nintendo, Game Freak &amp; The Pokémon Company.

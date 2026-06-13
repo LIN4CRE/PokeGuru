@@ -1,5 +1,5 @@
 import { Link, useNavigate } from 'react-router-dom';
-import { Search, Layers, Camera, Book } from 'lucide-react';
+import { Search, Layers, Camera, Book, AlertCircle } from 'lucide-react';
 import { useState, FormEvent } from 'react';
 
 export default function Header() {
@@ -27,7 +27,7 @@ export default function Header() {
       </Link>
 
       {/* Search */}
-      <form 
+      <form
         onSubmit={handleSearch}
         className="flex flex-1 max-w-[560px] min-w-[200px] overflow-hidden rounded-full border border-[var(--border)] bg-[var(--bg-card)]"
       >
@@ -39,7 +39,7 @@ export default function Header() {
           className="flex-1 border-none bg-transparent px-4 py-2.5 text-sm text-[var(--text)] outline-none placeholder:text-[var(--muted)]"
           aria-label="Search cards"
         />
-        <button 
+        <button
           type="submit"
           className="border-none bg-transparent px-4 text-[var(--muted)] hover:text-[var(--accent)] transition-colors"
           aria-label="Submit search"
@@ -50,26 +50,34 @@ export default function Header() {
 
       {/* Navigation */}
       <nav className="flex items-center gap-4">
-        <Link 
-          to="/wiki" 
+        <Link
+          to="/wiki"
           className="flex items-center gap-1.5 font-medium text-[var(--muted)] hover:text-[var(--text)] hover:no-underline transition-colors"
         >
           <Book size={16} />
           <span className="hidden sm:inline">Wiki</span>
         </Link>
-        <Link 
-          to="/sets" 
+        <Link
+          to="/sets"
           className="flex items-center gap-1.5 font-medium text-[var(--muted)] hover:text-[var(--text)] hover:no-underline transition-colors"
         >
           <Layers size={16} />
           <span className="hidden sm:inline">Sets</span>
         </Link>
-        <Link 
-          to="/scanner" 
+        <Link
+          to="/scanner"
           className="flex items-center gap-1.5 font-medium text-[var(--muted)] hover:text-[var(--text)] hover:no-underline transition-colors"
         >
           <Camera size={16} />
           <span className="hidden sm:inline">Scan</span>
+        </Link>
+        <Link
+          to="/about"
+          className="flex items-center gap-1.5 font-medium text-[var(--muted)] hover:text-[var(--text)] hover:no-underline transition-colors"
+          title="About PokeGuru"
+        >
+          <AlertCircle size={16} />
+          <span className="hidden sm:inline">About</span>
         </Link>
       </nav>
     </header>

@@ -324,12 +324,16 @@ export default function WikiPage() {
                       </span>
                     </td>
                     <td className="px-4 py-3">
-                      <Link
-                        to={`/search?q=set.id:${set.id}`}
-                        className="text-[var(--link)] hover:underline text-xs"
-                      >
-                        View cards →
-                      </Link>
+                      {new Date(set.releaseDate) <= new Date() ? (
+                        <Link
+                          to={`/search?q=set.id:${set.id}`}
+                          className="text-[var(--link)] hover:underline text-xs"
+                        >
+                          View cards →
+                        </Link>
+                      ) : (
+                        <span className="text-[var(--muted)] text-xs italic">Coming Soon</span>
+                      )}
                     </td>
                   </tr>
                 ))
@@ -401,12 +405,18 @@ function SetRow({ set, eraColour }: { set: WikiSet; eraColour: string }) {
       </div>
 
       {/* Action */}
-      <Link
-        to={`/search?q=set.id:${set.id}`}
-        className="flex-shrink-0 rounded-lg border border-[var(--border)] bg-[var(--bg)] px-2.5 py-1 text-xs font-medium text-[var(--muted)] opacity-0 transition-all group-hover:opacity-100 hover:text-[var(--text)] hover:border-[var(--accent)] hover:no-underline"
-      >
-        Browse →
-      </Link>
+      {new Date(set.releaseDate) <= new Date() ? (
+        <Link
+          to={`/search?q=set.id:${set.id}`}
+          className="flex-shrink-0 rounded-lg border border-[var(--border)] bg-[var(--bg)] px-2.5 py-1 text-xs font-medium text-[var(--muted)] opacity-0 transition-all group-hover:opacity-100 hover:text-[var(--text)] hover:border-[var(--accent)] hover:no-underline"
+        >
+          Browse →
+        </Link>
+      ) : (
+        <span className="flex-shrink-0 rounded-full bg-[var(--bg)] border border-[var(--border)] px-2 py-0.5 text-[10px] font-medium text-[var(--muted)] opacity-50">
+          Coming Soon
+        </span>
+      )}
     </div>
   );
 }
