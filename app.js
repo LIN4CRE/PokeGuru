@@ -1,14 +1,8 @@
-/* PokeGuru — a fast, open Pokémon card database.
- * Static SPA using the public Pokémon TCG API (https://pokemontcg.io).
- * Hash-based routing so it works on GitHub Pages with no build step.
- */
+/* PokeGuru — a fast, open Pokémon card database. */
 
 const API = "https://api.pokemontcg.io/v2";
 const API_KEY = "";
-
-// Simple in-memory cache for API results to make navigation "instant"
 const cache = new Map();
-
 const app = document.getElementById("app");
 
 /* ---------- helpers ---------- */
@@ -117,9 +111,7 @@ async function viewHome() {
         <a href="#/search?q=charizard">charizard</a> ·
         <a href="#/search?q=subtypes:mega">subtypes:mega</a> ·
         <a href="#/search?q=types:dragon">types:dragon</a>
-        or <a href="#/sets">Browse by set</a>
       </p>
-      <p class="hints"><a class="scan-cta" href="#/scan">📷 Scan a card to look it up</a></p>
     </section>
 
     <div class="section-title"><h2>Fresh holos</h2></div>
@@ -540,11 +532,11 @@ async function lookupScan(name, number, statusEl) {
 async function processScanImage(source, statusEl, resultEl) {
   const setStatus = (m) => { if (statusEl) statusEl.textContent = m; };
   resultEl.innerHTML = "";
-  setStatus("Reading the card… (this can take a few seconds)");
+  setStatus("Reading the card…");
 
   if (typeof Tesseract === "undefined") {
     setStatus("");
-    resultEl.innerHTML = `<div class="error">The OCR engine couldn't load. Check your connection and try again.</div>`;
+    resultEl.innerHTML = `<div class="error">The OCR engine couldn't load. Please check your connection.</div>`;
     return;
   }
 
