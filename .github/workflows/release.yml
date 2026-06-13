@@ -1,0 +1,32 @@
+name: Release
+
+on:
+  push:
+    tags:
+      - 'v*'
+
+permissions:
+  contents: write
+
+jobs:
+  release:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+          cache: npm
+
+      - run: npm ci
+      - run: npm run build
+
+      - name: Zip Build
+        run: zip -r pokeguru-build.zip dist
+
+      - name: Create Release
+        uses: softprops/action-gh-release@v2
+        with:
+          files: pokeguru-build.zip
+          generate_release_notes: true
