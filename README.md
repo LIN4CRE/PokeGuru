@@ -1,32 +1,42 @@
-# 🃏 PokeGuru — The Pokémon Collector's Tool
+# 🃏 PokeGuru — The Ultimate Pokémon Tool
 
 [![Build & Deploy](https://github.com/LIN4CRE/PokeGuru/actions/workflows/deploy.yml/badge.svg)](https://github.com/LIN4CRE/PokeGuru/actions/workflows/deploy.yml)
-[![Releases](https://img.shields.io/github/v/release/LIN4CRE/PokeGuru?color=red&style=flat-square)](https://github.com/LIN4CRE/PokeGuru/releases)
+[![Version](https://img.shields.io/badge/Version-1.5.4-red.svg?style=flat-square)](https://github.com/LIN4CRE/PokeGuru/releases)
 
-**PokeGuru** is a fast, professional Pokémon TCG database and portfolio tracker. 
+**PokeGuru** is a lightning-fast Pokémon TCG database and portfolio tracker. Track your collection value, search 18,000+ cards, and explore the UK set history.
 
-### 🚀 [VIEW LIVE WEBSITE](https://lin4cre.github.io/PokeGuru/#/)
+---
+
+### 🚀 [ENTER THE GURU VAULT](https://lin4cre.github.io/PokeGuru/#/)
 
 ---
 
 ## ✨ Features
 
-*   🔍 **Instant Search** — Find any card and see its real-time market value.
-*   🔒 **The Vault** — Add cards to your collection and see your total portfolio value in £ (GBP).
-*   🇬🇧 **UK Wiki** — Complete history of every UK Pokémon set since 1999.
-*   🏆 **PSA 10 Prices** — See what the highest graded versions are worth.
-*   📱 **Mobile App Style** — Built to work perfectly on your phone.
+*   🔍 **Instant Search** — Real-time market values for every card.
+*   🔒 **The Vault** — Build your collection and track total value in **£ (GBP)**.
+*   🇬🇧 **UK Wiki** — Complete history of every UK set since 1999.
+*   🏆 **PSA 10 Estimates** — Professional grading market data.
+*   📱 **Mobile App** — Use it on your phone like a native app.
 
-## 📥 Downloads
+## 📱 Use it as an App
+You don't need a separate APK! To use PokeGuru like a real app:
+1.  Open the **[Live Link](https://lin4cre.github.io/PokeGuru/#/)** on your phone.
+2.  Tap **'Share'** (iPhone) or the **'Three Dots'** (Android).
+3.  Tap **'Add to Home Screen'**.
 
-*   **[Download Latest Version](https://github.com/LIN4CRE/PokeGuru/releases)**
-*   **[Debug & System Health](https://github.com/LIN4CRE/PokeGuru/actions)**
+---
+
+## 📥 Downloads & Health
+
+*   📥 **[Download Build (.zip)](https://github.com/LIN4CRE/PokeGuru/releases)**
+*   🐞 **[System Health (Green Ticks)](https://github.com/LIN4CRE/PokeGuru/actions)**
 
 ---
 
 <p align="center">
   <sub>
     Pokémon and all related names are trademarks of Nintendo, Game Freak & The Pokémon Company.<br/>
-    This is an unofficial fan project.
+    This is an unofficial, community-built fan project.
   </sub>
 </p>
