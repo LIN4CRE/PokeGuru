@@ -9,6 +9,7 @@ import SetDetailPage from './pages/SetDetailPage';
 import ScannerPage from './pages/ScannerPage';
 import WikiPage from './pages/WikiPage';
 import AboutPage from './pages/AboutPage';
+import CollectionPage from './pages/CollectionPage';
 import NotFoundPage from './pages/NotFoundPage';
 
 /**
@@ -30,6 +31,7 @@ export default function App() {
             <Route path="set/:id" element={<SetDetailPage />} />
             <Route path="wiki" element={<WikiPage />} />
             <Route path="about" element={<AboutPage />} />
+            <Route path="collection" element={<CollectionPage />} />
             <Route path="scanner" element={<ScannerPage />} />
             <Route path="*" element={<NotFoundPage />} />
           </Route>

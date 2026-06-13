@@ -1,8 +1,10 @@
 import { useState } from 'react';
 import { useParams, useNavigate, Link } from 'react-router-dom';
-import { ArrowLeft, ExternalLink, TrendingUp } from 'lucide-react';
+import { ArrowLeft, ExternalLink, TrendingUp, Heart, Wallet } from 'lucide-react';
 import { useCard } from '../hooks/useApi';
 import { getAllSets } from '../data/ukSets';
+import { useCollection } from '../hooks/useCollection';
+import { getCardMarketValueUSD, formatGBP } from '../utils/pricing';
 import LoadingSpinner from '../components/UI/LoadingSpinner';
 import ErrorMessage from '../components/UI/ErrorMessage';
 import type { PokemonCard, TCGPlayerPrice } from '../types/pokemon';
@@ -40,6 +42,7 @@ export default function CardDetailPage() {
   const navigate = useNavigate();
   const [retryCount, setRetryCount] = useState(0);
   const { data: card, loading, error } = useCard(id || '', retryCount);
+  const { addToCollection, removeFromCollection, isInCollection } = useCollection();
 
   if (loading) {
     return <LoadingSpinner message="Loading card details..." />;
@@ -59,17 +62,32 @@ export default function CardDetailPage() {
   // Get PSA 10 data from wiki
   const wikiSets = getAllSets();
   const wikiSet = wikiSets.find(s => s.id === card.set.id);
+  const collected = isInCollection(card.id);
 
   return (
     <div>
-      {/* Back Link */}
-      <button
-        onClick={() => navigate(-1)}
-        className="mb-6 inline-flex cursor-pointer items-center gap-1.5 text-sm text-[var(--muted)] hover:text-[var(--text)]"
-      >
-        <ArrowLeft size={16} />
-        Back
-      </button>
+      {/* Back Link & Collection Toggle */}
+      <div className="mb-6 flex items-center justify-between">
+        <button
+          onClick={() => navigate(-1)}
+          className="inline-flex cursor-pointer items-center gap-1.5 text-sm text-[var(--muted)] hover:text-[var(--text)] transition-colors"
+        >
+          <ArrowLeft size={16} />
+          Back
+        </button>
+
+        <button
+          onClick={() => collected ? removeFromCollection(card.id) : addToCollection(card)}
+          className={`flex items-center gap-2 rounded-xl border px-4 py-2 text-sm font-bold transition-all active:scale-95 ${
+            collected
+              ? 'border-red-500/20 bg-red-500/10 text-red-500 hover:bg-red-500/20'
+              : 'border-[var(--border)] bg-[var(--bg-card)] text-[var(--muted)] hover:border-[var(--accent)] hover:text-[var(--text)]'
+          }`}
+        >
+          <Heart size={18} fill={collected ? "currentColor" : "none"} />
+          {collected ? 'In Collection' : 'Add to Collection'}
+        </button>
+      </div>
 
       <div className="grid gap-8 md:grid-cols-[minmax(220px,360px)_1fr]">
         {/* Card Image */}
@@ -211,12 +229,26 @@ export default function CardDetailPage() {
           )}
 
           {/* Market Prices */}
+          <div className="mb-4 grid gap-4 sm:grid-cols-2">
+            <div className="rounded-[var(--radius)] border border-[var(--border)] bg-gradient-to-br from-[#10b981]/10 to-transparent p-4">
+              <h3 className="mb-1 text-xs font-bold uppercase tracking-widest text-[#10b981]">Estimated Value</h3>
+              <p className="text-3xl font-black text-[var(--text)]">{formatGBP(getCardMarketValueUSD(card))}</p>
+              <p className="mt-1 text-[10px] font-medium text-[var(--muted)] uppercase tracking-tighter">Avg. Ungraded / Near Mint (GBP)</p>
+            </div>
+
+            {priceInfo && (
+              <div className="rounded-[var(--radius)] border border-[var(--border)] bg-[var(--bg-card)] p-4">
+                <h3 className="mb-1 text-xs font-bold uppercase tracking-widest text-[var(--accent-2)]">Live Market (USD)</h3>
+                <p className="text-3xl font-black text-[var(--text)]">{formatCurrency(priceInfo.price.market)}</p>
+                <p className="mt-1 text-[10px] font-medium text-[var(--muted)] uppercase tracking-tighter">Source: TCGPlayer {priceInfo.label}</p>
+              </div>
+            )}
+          </div>
+
+          {/* Detailed Prices Accordion */}
           {priceInfo && (
             <div className="mb-4 rounded-[var(--radius)] border border-[var(--border)] bg-[var(--bg-card)] p-4">
-              <h3 className="mb-3 text-base font-semibold text-[var(--accent-2)]">Market Prices</h3>
-              <p className="mb-2 text-xs text-[var(--muted)]">
-                {priceInfo.label} • Updated {card.tcgplayer?.updatedAt ? new Date(card.tcgplayer.updatedAt).toLocaleDateString() : 'recently'}
-              </p>
+              <h3 className="mb-3 text-sm font-bold text-[var(--muted)] uppercase tracking-widest">Price Breakdown (USD)</h3>
               <div className="grid grid-cols-2 gap-3 sm:grid-cols-4">
                 <div>
                   <p className="text-xs text-[var(--muted)]">Low</p>

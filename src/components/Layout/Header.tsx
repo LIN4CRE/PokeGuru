@@ -1,5 +1,5 @@
 import { Link, useNavigate } from 'react-router-dom';
-import { Search, Layers, Camera, Book, AlertCircle } from 'lucide-react';
+import { Search, Layers, Camera, Book, AlertCircle, Wallet } from 'lucide-react';
 import { useState, FormEvent } from 'react';
 
 export default function Header() {
@@ -50,6 +50,14 @@ export default function Header() {
 
       {/* Navigation */}
       <nav className="flex items-center gap-4">
+        <Link
+          to="/collection"
+          className="flex items-center gap-1.5 font-medium text-[var(--muted)] hover:text-[var(--text)] hover:no-underline transition-colors"
+          title="My Collection"
+        >
+          <Wallet size={16} />
+          <span className="hidden sm:inline">Collection</span>
+        </Link>
         <Link
           to="/wiki"
           className="flex items-center gap-1.5 font-medium text-[var(--muted)] hover:text-[var(--text)] hover:no-underline transition-colors"
