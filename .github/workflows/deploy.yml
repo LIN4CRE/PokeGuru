@@ -10,12 +10,8 @@ permissions:
   pages: write
   id-token: write
 
-concurrency:
-  group: "pages"
-  cancel-in-progress: true
-
 jobs:
-  deploy:
+  build-and-deploy:
     runs-on: ubuntu-latest
     steps:
       - name: Checkout
@@ -32,14 +28,6 @@ jobs:
 
       - name: Build
         run: npm run build
-        env:
-          NODE_ENV: production
-
-      - name: List dist
-        run: ls -R dist
-
-      - name: Setup Pages
-        uses: actions/configure-pages@v5
 
       - name: Upload artifact
         uses: actions/upload-pages-artifact@v3
@@ -47,5 +35,4 @@ jobs:
           path: './dist'
 
       - name: Deploy to GitHub Pages
-        id: deployment
         uses: actions/deploy-pages@v4
