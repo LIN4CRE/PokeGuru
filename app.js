@@ -4,10 +4,10 @@
  */
 
 const API = "https://api.pokemontcg.io/v2";
-
-// Optional: paste a pokemontcg.io API key here for higher rate limits.
-// Leaving it empty works fine for personal use.
 const API_KEY = "";
+
+// Simple in-memory cache for API results to make navigation "instant"
+const cache = new Map();
 
 const app = document.getElementById("app");
 
@@ -18,9 +18,12 @@ function headers() {
 }
 
 async function apiGet(path) {
+  if (cache.has(path)) return cache.get(path);
   const res = await fetch(`${API}${path}`, { headers: headers() });
   if (!res.ok) throw new Error(`API error ${res.status}`);
-  return res.json();
+  const data = await res.json();
+  cache.set(path, data);
+  return data;
 }
 
 function esc(s) {
@@ -31,8 +34,23 @@ function esc(s) {
     .replace(/"/g, "&quot;");
 }
 
-function setLoading(msg = "Loading…") {
-  app.innerHTML = `<div class="loading">${esc(msg)}</div>`;
+function setLoading(msg = "Loading…", type = "spinner") {
+  if (type === "grid") {
+    app.innerHTML = `
+      <div class="skeleton-grid">
+        ${Array(12).fill('<div class="skeleton-card"></div>').join("")}
+      </div>`;
+  } else {
+    app.innerHTML = `
+      <div class="loading">
+        <div class="loading-spinner"></div>
+        <span>${esc(msg)}</span>
+      </div>`;
+  }
+  // Restart the fadeIn animation on every new view
+  app.style.animation = "none";
+  app.offsetHeight; // trigger reflow
+  app.style.animation = null;
 }
 
 function showError(msg) {
@@ -136,7 +154,7 @@ async function viewSearch(params) {
   document.getElementById("header-search-input").value = raw;
   document.getElementById("hero-search-input")?.setAttribute("value", raw);
 
-  setLoading(`Searching for "${raw}"…`);
+  setLoading(`Searching for "${raw}"…`, "grid");
 
   let qParts = [buildQuery(raw)].filter(Boolean);
   if (type) qParts.push(`types:${type}`);
@@ -230,7 +248,7 @@ async function viewSets() {
 async function viewSet(id, params) {
   const page = parseInt(params.get("page") || "1", 10);
   const pageSize = 36;
-  setLoading("Loading set…");
+  setLoading("Loading set…", "grid");
   try {
     const [setData, cardsData] = await Promise.all([
       apiGet(`/sets/${encodeURIComponent(id)}`),
