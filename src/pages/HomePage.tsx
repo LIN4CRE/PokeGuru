@@ -22,50 +22,54 @@ export default function HomePage() {
   return (
     <div>
       {/* Hero Section */}
-      <section className="py-10 text-center md:py-16">
-        <h1 className="mb-2 text-3xl font-bold md:text-5xl">
-          The Ultimate <span className="text-[var(--accent)]">Pokémon</span> Card Database
-        </h1>
-        <p className="mb-6 text-lg text-[var(--muted)]">
-          Search every card, browse by set, and dig into the details.
-        </p>
+      <section className="relative py-12 text-center md:py-20 overflow-hidden">
+        {/* Glow effect */}
+        <div className="absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2 w-[600px] h-[600px] bg-[var(--accent)] opacity-[0.05] blur-[120px] pointer-events-none rounded-full" />
 
-        {/* Search Form */}
-        <form 
-          onSubmit={handleSearch}
-          className="mx-auto mb-4 flex max-w-[620px] overflow-hidden rounded-full border border-[var(--border)] bg-[var(--bg-card)] shadow-[var(--shadow)]"
-        >
-          <input
-            type="search"
-            value={searchQuery}
-            onChange={(e) => setSearchQuery(e.target.value)}
-            placeholder='Try "venusaur" or "subtypes:mega"'
-            className="flex-1 border-none bg-transparent px-6 py-3.5 text-base text-[var(--text)] outline-none placeholder:text-[var(--muted)]"
-            aria-label="Search for Pokémon cards"
-          />
-          <button
-            type="submit"
-            className="border-none bg-[var(--accent)] px-6 text-base font-semibold text-white hover:bg-[#dc2626] transition-colors"
+        <div className="relative z-10">
+          <div className="mx-auto mb-6 flex h-20 w-20 items-center justify-center rounded-2xl bg-[var(--bg-card)] border border-[var(--border)] shadow-xl">
+            <div className="pokeball relative h-10 w-10 rounded-full border-[4px] border-[#111] bg-gradient-to-b from-[#ef4444] from-50% to-white to-50% shadow-[inset_0_0_0_3px_#fff]">
+              <div className="absolute inset-0 m-auto h-3 w-3 rounded-full border-[4px] border-[#111] bg-white" />
+            </div>
+          </div>
+          <h1 className="mb-4 text-4xl font-extrabold md:text-6xl tracking-tight">
+            The Pokémon Card <span className="text-[var(--accent)]">Guru</span>
+          </h1>
+          <p className="mx-auto mb-10 max-w-xl text-lg text-[var(--muted)] md:text-xl">
+            A lightning-fast cards database with real-time prices, UK set history, and advanced search tools.
+          </p>
+
+          {/* Search Form */}
+          <form
+            onSubmit={handleSearch}
+            className="mx-auto mb-6 flex max-w-[640px] p-1.5 overflow-hidden rounded-2xl border border-[var(--border)] bg-[var(--bg-card)]/80 backdrop-blur-md shadow-2xl focus-within:border-[var(--accent)] transition-all"
           >
-            Search
-          </button>
-        </form>
+            <input
+              type="search"
+              value={searchQuery}
+              onChange={(e) => setSearchQuery(e.target.value)}
+              placeholder='Search by name, type (types:fire) or set...'
+              className="flex-1 border-none bg-transparent px-6 py-3 text-base text-[var(--text)] outline-none placeholder:text-[var(--muted)]"
+              aria-label="Search for Pokémon cards"
+            />
+            <button
+              type="submit"
+              className="rounded-xl bg-[var(--accent)] px-8 py-3 text-base font-bold text-white hover:bg-[#dc2626] transition-all active:scale-95 shadow-lg shadow-[var(--accent)]/20"
+            >
+              Search
+            </button>
+          </form>
 
-        {/* Quick Links */}
-        <p className="text-sm text-[var(--muted)]">
-          Try{' '}
-          <Link to="/search?q=charizard" className="mx-1 hover:text-[var(--link)]">
-            charizard
-          </Link>
-          ·
-          <Link to="/search?q=subtypes:mega" className="mx-1 hover:text-[var(--link)]">
-            subtypes:mega
-          </Link>
-          ·
-          <Link to="/search?q=types:dragon" className="mx-1 hover:text-[var(--link)]">
-            types:dragon
-          </Link>
-        </p>
+          {/* Quick Links */}
+          <div className="flex flex-wrap justify-center gap-2 text-xs font-medium uppercase tracking-widest text-[var(--muted)]">
+            <span>Popular:</span>
+            <Link to="/search?q=charizard" className="text-[var(--text)] hover:text-[var(--accent)] transition-colors">Charizard</Link>
+            <span className="opacity-20">•</span>
+            <Link to="/search?q=pikachu" className="text-[var(--text)] hover:text-[var(--accent)] transition-colors">Pikachu</Link>
+            <span className="opacity-20">•</span>
+            <Link to="/search?q=rarity:%22Special%20Illustration%20Rare%22" className="text-[var(--text)] hover:text-[var(--accent)] transition-colors">SIRs</Link>
+          </div>
+        </div>
       </section>
 
       {/* Quick Feature Cards */}
@@ -121,7 +125,7 @@ export default function HomePage() {
         </div>
 
         {loading && <LoadingSpinner message="Loading featured cards..." />}
-        
+
         {error && (
           <div className="py-8 text-center text-[var(--muted)]">
             <p>Couldn't load featured cards. Try searching for something!</p>

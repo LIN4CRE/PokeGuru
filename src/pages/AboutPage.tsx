@@ -2,15 +2,25 @@ import { Book, Search, Layers, Code, ExternalLink, ShieldCheck, Zap } from 'luci
 
 export default function AboutPage() {
   return (
-    <div className="mx-auto max-w-4xl pb-12">
+    <div className="mx-auto max-w-4xl pb-12 animate-fade-in">
       {/* Hero Header */}
-      <div className="mb-10 text-center">
-        <h1 className="text-4xl font-bold md:text-5xl">
-          About <span className="text-[var(--accent)]">PokeGuru</span>
-        </h1>
-        <p className="mt-4 text-lg text-[var(--muted)]">
-          A fast, modern, and open Pokémon TCG card database built for collectors.
-        </p>
+      <div className="relative mb-12 overflow-hidden rounded-3xl border border-[var(--border)] bg-[var(--bg-card)] p-8 md:p-12 text-center">
+        {/* Decorative elements */}
+        <div className="absolute -left-10 -top-10 h-40 w-40 rounded-full bg-[var(--accent)] opacity-5 blur-3xl" />
+        <div className="absolute -right-10 -bottom-10 h-40 w-40 rounded-full bg-[var(--accent-2)] opacity-5 blur-3xl" />
+
+        <div className="relative z-10">
+          <div className="mx-auto mb-6 flex h-16 w-16 items-center justify-center rounded-2xl bg-[var(--accent)]/10 text-[var(--accent)]">
+            <Book size={32} />
+          </div>
+          <h1 className="text-4xl font-extrabold md:text-5xl tracking-tight">
+            About <span className="text-[var(--accent)]">PokeGuru</span>
+          </h1>
+          <p className="mx-auto mt-4 max-w-2xl text-lg text-[var(--muted)] leading-relaxed">
+            PokeGuru is a community-focused Pokémon TCG database designed for speed,
+            accuracy, and ease of use. Built by fans, for fans.
+          </p>
+        </div>
       </div>
 
       <div className="grid gap-10 md:grid-cols-[1fr_300px]">

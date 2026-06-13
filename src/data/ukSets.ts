@@ -50,10 +50,12 @@ const UK_ERAS: WikiEra[] = [
       { name: 'Neo Discovery', id: 'neo2', cards: 75, releaseDate: '2001-06-01', releaseYear: 2001, type: 'main' },
       { name: 'Neo Revelation', id: 'neo3', cards: 66, releaseDate: '2001-09-21', releaseYear: 2001, type: 'main' },
       { name: 'Neo Destiny', id: 'neo4', cards: 113, releaseDate: '2002-02-28', releaseYear: 2002, type: 'main' },
+      { name: 'Southern Islands', id: 'si1', cards: 18, releaseDate: '2002-04-01', releaseYear: 2002, type: 'special' },
       { name: 'Legendary Collection', id: 'base6', cards: 110, releaseDate: '2002-05-24', releaseYear: 2002, type: 'special' },
       { name: 'Expedition Base Set', id: 'ecard1', cards: 165, releaseDate: '2002-09-15', releaseYear: 2002, type: 'main' },
       { name: 'Aquapolis', id: 'ecard2', cards: 186, releaseDate: '2003-01-15', releaseYear: 2003, type: 'main' },
       { name: 'Skyridge', id: 'ecard3', cards: 182, releaseDate: '2003-05-12', releaseYear: 2003, type: 'main' },
+      { name: 'Wizards Black Star Promos', id: 'promo1', cards: 53, releaseDate: '2003-05-13', releaseYear: 2003, type: 'promo' },
     ],
   },
 
@@ -81,6 +83,7 @@ const UK_ERAS: WikiEra[] = [
       { name: 'EX Crystal Guardians', id: 'ex14', cards: 100, releaseDate: '2006-08-30', releaseYear: 2006, type: 'main' },
       { name: 'EX Dragon Frontiers', id: 'ex15', cards: 101, releaseDate: '2006-11-08', releaseYear: 2006, type: 'main' },
       { name: 'EX Power Keepers', id: 'ex16', cards: 108, releaseDate: '2007-02-14', releaseYear: 2007, type: 'main' },
+      { name: 'Nintendo Black Star Promos', id: 'np', cards: 40, releaseDate: '2007-03-01', releaseYear: 2007, type: 'promo' },
     ],
   },
 

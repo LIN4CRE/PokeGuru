@@ -1,10 +1,15 @@
 import { useState, useMemo, useRef, useEffect } from 'react';
 import { Link, useSearchParams } from 'react-router-dom';
-import { Book, ChevronDown, ChevronRight, Search, Layers, Calendar, Hash, Filter } from 'lucide-react';
+import { Book, ChevronDown, ChevronRight, Search, Layers, Calendar, Hash, Filter, ExternalLink } from 'lucide-react';
 import UK_ERAS, { getTotalSetCount, getTotalCardCount } from '../data/ukSets';
 import type { WikiSet } from '../data/ukSets';
 
 type ViewMode = 'timeline' | 'table';
+
+function getBulbapediaUrl(setName: string) {
+  const sanitized = setName.replace(/ Series| \(WOTC\)/g, '').replace(/ /g, '_');
+  return `https://bulbapedia.bulbagarden.net/wiki/${sanitized}_(TCG)`;
+}
 
 export default function WikiPage() {
   const [searchParams, setSearchParams] = useSearchParams();
@@ -84,33 +89,41 @@ export default function WikiPage() {
   return (
     <div className="pb-8">
       {/* Hero Header */}
-      <div className="mb-8 rounded-2xl border border-[var(--border)] bg-gradient-to-br from-[var(--bg-card)] to-[var(--bg-soft)] p-6 md:p-8">
-        <div className="flex items-start gap-4">
-          <div className="rounded-xl bg-[var(--accent)]/20 p-3">
-            <Book size={32} className="text-[var(--accent)]" />
+      <div className="relative mb-8 overflow-hidden rounded-2xl border border-[var(--border)] bg-[var(--bg-card)] p-6 md:p-8">
+        {/* Decorative Background Poke-ball */}
+        <div className="absolute -right-16 -top-16 opacity-[0.03] pointer-events-none">
+          <div className="h-64 w-64 rounded-full border-[30px] border-[var(--text)]" />
+          <div className="absolute inset-0 m-auto h-20 w-20 rounded-full border-[30px] border-[var(--text)]" />
+          <div className="absolute inset-0 top-1/2 h-[30px] w-64 -translate-y-1/2 bg-[var(--text)]" />
+        </div>
+
+        <div className="relative z-10 flex flex-col md:flex-row md:items-center gap-6">
+          <div className="flex h-20 w-20 flex-shrink-0 items-center justify-center rounded-2xl bg-gradient-to-br from-[var(--accent)] to-[#dc2626] shadow-lg shadow-[var(--accent)]/20">
+            <Book size={40} className="text-white" />
           </div>
           <div className="flex-1">
-            <h1 className="text-2xl font-bold md:text-3xl">
-              🇬🇧 UK Pokémon Card Wiki
+            <h1 className="text-3xl font-extrabold tracking-tight md:text-4xl">
+              🇬🇧 <span className="text-[var(--text)]">UK Pokémon Card</span> <span className="text-[var(--accent)]">Wiki</span>
             </h1>
-            <p className="mt-1 text-[var(--muted)]">
-              Every Pokémon TCG set released in the UK — from Base Set (1999) to today
+            <p className="mt-2 text-[var(--muted)] text-lg max-w-2xl">
+              The definitive database of every Pokémon TCG set released in the UK.
+              From the 1999 Base Set to the latest expansions.
             </p>
-            <div className="mt-4 flex flex-wrap gap-4 text-sm">
-              <div className="flex items-center gap-1.5 rounded-full border border-[var(--border)] bg-[var(--bg)] px-3 py-1.5">
-                <Layers size={14} className="text-[var(--accent)]" />
-                <span className="text-[var(--text)] font-semibold">{totalSets}</span>
-                <span className="text-[var(--muted)]">sets</span>
+            <div className="mt-6 flex flex-wrap gap-3">
+              <div className="flex items-center gap-2 rounded-xl border border-[var(--border)] bg-[var(--bg)]/50 px-4 py-2 backdrop-blur-sm">
+                <Layers size={16} className="text-[var(--accent)]" />
+                <span className="text-base font-bold text-[var(--text)]">{totalSets}</span>
+                <span className="text-xs font-medium text-[var(--muted)] uppercase tracking-wider">Sets</span>
               </div>
-              <div className="flex items-center gap-1.5 rounded-full border border-[var(--border)] bg-[var(--bg)] px-3 py-1.5">
-                <Hash size={14} className="text-[var(--accent-2)]" />
-                <span className="text-[var(--text)] font-semibold">{totalCards.toLocaleString()}</span>
-                <span className="text-[var(--muted)]">cards</span>
+              <div className="flex items-center gap-2 rounded-xl border border-[var(--border)] bg-[var(--bg)]/50 px-4 py-2 backdrop-blur-sm">
+                <Hash size={16} className="text-[var(--accent-2)]" />
+                <span className="text-base font-bold text-[var(--text)]">{totalCards.toLocaleString()}</span>
+                <span className="text-xs font-medium text-[var(--muted)] uppercase tracking-wider">Cards</span>
               </div>
-              <div className="flex items-center gap-1.5 rounded-full border border-[var(--border)] bg-[var(--bg)] px-3 py-1.5">
-                <Calendar size={14} className="text-[var(--link)]" />
-                <span className="text-[var(--text)] font-semibold">{UK_ERAS.length}</span>
-                <span className="text-[var(--muted)]">eras</span>
+              <div className="flex items-center gap-2 rounded-xl border border-[var(--border)] bg-[var(--bg)]/50 px-4 py-2 backdrop-blur-sm">
+                <Calendar size={16} className="text-[var(--link)]" />
+                <span className="text-base font-bold text-[var(--text)]">{UK_ERAS.length}</span>
+                <span className="text-xs font-medium text-[var(--muted)] uppercase tracking-wider">Eras</span>
               </div>
             </div>
           </div>
@@ -273,70 +286,95 @@ export default function WikiPage() {
 
       {/* Table View */}
       {viewMode === 'table' && (
-        <div className="overflow-x-auto rounded-xl border border-[var(--border)]">
-          <table className="w-full text-left text-sm">
-            <thead className="border-b border-[var(--border)] bg-[var(--bg-card)]">
-              <tr>
-                <th className="px-4 py-3 font-semibold text-[var(--muted)]">Era</th>
-                <th className="px-4 py-3 font-semibold text-[var(--muted)]">Set Name</th>
-                <th className="px-4 py-3 font-semibold text-[var(--muted)] text-right">Cards</th>
-                <th className="px-4 py-3 font-semibold text-[var(--muted)]">Release Date</th>
-                <th className="px-4 py-3 font-semibold text-[var(--muted)]">Type</th>
-                <th className="px-4 py-3 font-semibold text-[var(--muted)]">Browse</th>
+        <div className="overflow-x-auto rounded-xl border border-[var(--border)] bg-[var(--bg-card)]">
+          <table className="w-full text-left text-sm border-collapse">
+            <thead>
+              <tr className="border-b border-[var(--border)] bg-[var(--bg-soft)]/50">
+                <th className="px-4 py-4 font-bold text-[var(--muted)] uppercase tracking-widest text-[10px]">Era</th>
+                <th className="px-4 py-4 font-bold text-[var(--muted)] uppercase tracking-widest text-[10px]">Set Name</th>
+                <th className="px-4 py-4 font-bold text-[var(--muted)] uppercase tracking-widest text-[10px] text-right">Cards</th>
+                <th className="px-4 py-4 font-bold text-[var(--muted)] uppercase tracking-widest text-[10px]">Release</th>
+                <th className="px-4 py-4 font-bold text-[var(--muted)] uppercase tracking-widest text-[10px]">Type</th>
+                <th className="px-4 py-4 font-bold text-[var(--muted)] uppercase tracking-widest text-[10px] text-right">Links</th>
               </tr>
             </thead>
             <tbody>
               {filteredEras.flatMap((era) =>
-                era.sets.map((set, i) => (
-                  <tr
-                    key={set.id}
-                    className="border-b border-[var(--border)] last:border-0 hover:bg-[var(--bg-soft)] transition-colors"
-                  >
-                    {i === 0 ? (
-                      <td
-                        className="px-4 py-3 align-top font-medium"
-                        rowSpan={era.sets.length}
-                      >
-                        <span
-                          className="inline-block rounded-full px-2 py-0.5 text-xs font-semibold text-white"
-                          style={{ backgroundColor: era.colour }}
+                era.sets.map((set, i) => {
+                  const isReleased = new Date(set.releaseDate) <= new Date();
+                  return (
+                    <tr
+                      key={set.id}
+                      className="border-b border-[var(--border)] last:border-0 hover:bg-[var(--bg-soft)]/50 transition-colors group"
+                    >
+                      {i === 0 ? (
+                        <td
+                          className="px-4 py-4 align-top"
+                          rowSpan={era.sets.length}
                         >
-                          {era.name.replace(/ Series| \(WOTC\)/g, '')}
+                          <span
+                            className="inline-block rounded-lg px-2 py-1 text-[10px] font-extrabold text-white uppercase tracking-tighter"
+                            style={{ backgroundColor: era.colour }}
+                          >
+                            {era.name.replace(/ Series| \(WOTC\)/g, '')}
+                          </span>
+                        </td>
+                      ) : null}
+                      <td className="px-4 py-4">
+                        <div className="flex items-center gap-3">
+                          <div className="flex h-8 w-8 items-center justify-center rounded bg-[var(--bg)] border border-[var(--border)] p-1">
+                            <img
+                              src={`https://images.pokemontcg.io/${set.id}/symbol.png`}
+                              alt=""
+                              className={`h-5 w-5 object-contain ${!isReleased ? 'grayscale opacity-30' : ''}`}
+                              onError={(e) => { (e.target as HTMLImageElement).style.display = 'none'; }}
+                            />
+                          </div>
+                          <span className="font-bold text-[var(--text)]">{set.name}</span>
+                        </div>
+                      </td>
+                      <td className="px-4 py-4 text-right tabular-nums font-medium text-[var(--text)]/80">{set.cards}</td>
+                      <td className="px-4 py-4 text-[var(--muted)] tabular-nums">
+                        {new Date(set.releaseDate + 'T00:00:00').toLocaleDateString('en-GB', {
+                          month: 'short',
+                          year: 'numeric',
+                        })}
+                      </td>
+                      <td className="px-4 py-4">
+                        <span className={`rounded-md px-2 py-0.5 text-[10px] font-bold uppercase tracking-tighter border ${
+                          set.type === 'main' ? 'bg-blue-500/10 text-blue-400 border-blue-500/20' :
+                          set.type === 'special' ? 'bg-purple-500/10 text-purple-400 border-purple-500/20' :
+                          'bg-yellow-500/10 text-yellow-400 border-yellow-500/20'
+                        }`}>
+                          {set.type}
                         </span>
                       </td>
-                    ) : null}
-                    <td className="px-4 py-3 font-medium text-[var(--text)]">{set.name}</td>
-                    <td className="px-4 py-3 text-right tabular-nums text-[var(--text)]">{set.cards}</td>
-                    <td className="px-4 py-3 text-[var(--muted)] tabular-nums">
-                      {new Date(set.releaseDate + 'T00:00:00').toLocaleDateString('en-GB', {
-                        day: 'numeric',
-                        month: 'short',
-                        year: 'numeric',
-                      })}
-                    </td>
-                    <td className="px-4 py-3">
-                      <span className={`rounded-full px-2 py-0.5 text-xs font-medium ${
-                        set.type === 'main' ? 'bg-blue-500/20 text-blue-400' :
-                        set.type === 'special' ? 'bg-purple-500/20 text-purple-400' :
-                        'bg-yellow-500/20 text-yellow-400'
-                      }`}>
-                        {set.type}
-                      </span>
-                    </td>
-                    <td className="px-4 py-3">
-                      {new Date(set.releaseDate) <= new Date() ? (
-                        <Link
-                          to={`/search?q=set.id:${set.id}`}
-                          className="text-[var(--link)] hover:underline text-xs"
-                        >
-                          View cards →
-                        </Link>
-                      ) : (
-                        <span className="text-[var(--muted)] text-xs italic">Coming Soon</span>
-                      )}
-                    </td>
-                  </tr>
-                ))
+                      <td className="px-4 py-4">
+                        <div className="flex items-center justify-end gap-2">
+                          <a
+                            href={getBulbapediaUrl(set.name)}
+                            target="_blank"
+                            rel="noopener noreferrer"
+                            className="text-[var(--muted)] hover:text-[var(--link)] transition-colors p-1"
+                            title="Bulbapedia"
+                          >
+                            <ExternalLink size={14} />
+                          </a>
+                          {isReleased ? (
+                            <Link
+                              to={`/search?q=set.id:${set.id}`}
+                              className="text-[var(--accent)] hover:text-[var(--accent)] font-bold text-xs hover:underline underline-offset-4"
+                            >
+                              Cards →
+                            </Link>
+                          ) : (
+                            <span className="text-[var(--muted)] text-[10px] font-bold uppercase opacity-40">Soon</span>
+                          )}
+                        </div>
+                      </td>
+                    </tr>
+                  );
+                })
               )}
             </tbody>
           </table>
@@ -344,8 +382,8 @@ export default function WikiPage() {
       )}
 
       {/* Quick Era Navigation */}
-      <div className="mt-10">
-        <h3 className="mb-3 text-sm font-semibold text-[var(--muted)] uppercase tracking-wider">Quick Navigation</h3>
+      <div className="mt-12 rounded-2xl border border-[var(--border)] bg-[var(--bg-soft)]/50 p-6">
+        <h3 className="mb-4 text-xs font-bold text-[var(--muted)] uppercase tracking-[0.2em]">Jump to Era</h3>
         <div className="flex flex-wrap gap-2">
           {UK_ERAS.map((era) => (
             <button
@@ -354,14 +392,25 @@ export default function WikiPage() {
                 setSelectedEra(era.slug);
                 setExpandedEras((prev) => new Set([...prev, era.slug]));
               }}
-              className="rounded-full border border-[var(--border)] px-3 py-1.5 text-xs font-medium text-[var(--text)] transition-all hover:-translate-y-0.5 hover:shadow-md"
+              className="group relative flex items-center gap-2 rounded-xl border border-[var(--border)] bg-[var(--bg-card)] px-4 py-2.5 text-sm font-bold text-[var(--text)] transition-all hover:-translate-y-1 hover:shadow-lg focus:outline-none focus-visible:ring-2 focus-visible:ring-[var(--accent)]"
               style={{
                 borderColor: selectedEra === era.slug ? era.colour : undefined,
-                backgroundColor: selectedEra === era.slug ? era.colour + '20' : undefined,
+                backgroundColor: selectedEra === era.slug ? era.colour + '15' : undefined,
               }}
             >
+              <div
+                className="h-2 w-2 rounded-full"
+                style={{ backgroundColor: era.colour }}
+              />
               {era.name.replace(/ Series| \(WOTC\)/g, '')}
-              <span className="ml-1 text-[var(--muted)]">{era.years.split(' – ')[0]}</span>
+              <span className="ml-1 text-[10px] font-medium text-[var(--muted)]">{era.years.split(' – ')[0]}</span>
+
+              {selectedEra === era.slug && (
+                <div
+                  className="absolute -bottom-px left-4 right-4 h-1 rounded-t-full"
+                  style={{ backgroundColor: era.colour }}
+                />
+              )}
             </button>
           ))}
         </div>
@@ -379,44 +428,70 @@ function SetRow({ set, eraColour }: { set: WikiSet; eraColour: string }) {
     year: 'numeric',
   });
 
+  const isReleased = new Date(set.releaseDate) <= new Date();
+
   return (
-    <div className="group flex items-center gap-3 rounded-lg border border-transparent bg-[var(--bg-soft)] p-3 transition-all hover:border-[var(--border)] hover:bg-[var(--bg-card)]">
-      {/* Timeline Dot */}
-      <div
-        className="h-2.5 w-2.5 flex-shrink-0 rounded-full ring-2 ring-[var(--bg-soft)] group-hover:ring-[var(--bg-card)]"
-        style={{ backgroundColor: eraColour }}
-      />
+    <div className="group flex items-center gap-3 rounded-lg border border-transparent bg-[var(--bg-soft)] p-3 transition-all hover:border-[var(--border)] hover:bg-[var(--bg-card)] hover:shadow-sm">
+      {/* Symbol Container */}
+      <div className="relative flex h-10 w-10 flex-shrink-0 items-center justify-center overflow-hidden rounded-lg bg-[var(--bg)] border border-[var(--border)] group-hover:border-[var(--accent)]/30 transition-colors">
+        <div
+          className="absolute inset-0 opacity-5"
+          style={{ backgroundColor: eraColour }}
+        />
+        <img
+          src={`https://images.pokemontcg.io/${set.id}/symbol.png`}
+          alt=""
+          className={`relative z-10 h-6 w-6 object-contain transition-transform group-hover:scale-110 ${!isReleased ? 'grayscale opacity-30' : ''}`}
+          onError={(e) => {
+            (e.target as HTMLImageElement).style.display = 'none';
+          }}
+        />
+      </div>
 
       {/* Set Info */}
       <div className="flex-1 min-w-0">
         <div className="flex items-center gap-2">
-          <h3 className="font-medium text-[var(--text)] text-sm truncate">{set.name}</h3>
-          <span className={`flex-shrink-0 rounded-full px-1.5 py-0.5 text-[10px] font-semibold ${
-            set.type === 'main' ? 'bg-blue-500/20 text-blue-400' :
-            set.type === 'special' ? 'bg-purple-500/20 text-purple-400' :
-            'bg-yellow-500/20 text-yellow-400'
+          <h3 className="font-semibold text-[var(--text)] text-sm truncate">{set.name}</h3>
+          <span className={`flex-shrink-0 rounded-full px-1.5 py-0.5 text-[10px] font-bold tracking-tight uppercase border ${
+            set.type === 'main' ? 'bg-blue-500/10 text-blue-400 border-blue-500/20' :
+            set.type === 'special' ? 'bg-purple-500/10 text-purple-400 border-purple-500/20' :
+            'bg-yellow-500/10 text-yellow-400 border-yellow-500/20'
           }`}>
             {set.type}
           </span>
         </div>
-        <p className="text-xs text-[var(--muted)]">
-          {formattedDate} · {set.cards} cards
+        <p className="text-xs text-[var(--muted)] flex items-center gap-2 mt-0.5">
+          <span className="font-medium text-[var(--text)]/70">{formattedDate}</span>
+          <span className="opacity-20">•</span>
+          <span>{set.cards} cards</span>
         </p>
       </div>
 
-      {/* Action */}
-      {new Date(set.releaseDate) <= new Date() ? (
-        <Link
-          to={`/search?q=set.id:${set.id}`}
-          className="flex-shrink-0 rounded-lg border border-[var(--border)] bg-[var(--bg)] px-2.5 py-1 text-xs font-medium text-[var(--muted)] opacity-0 transition-all group-hover:opacity-100 hover:text-[var(--text)] hover:border-[var(--accent)] hover:no-underline"
+      {/* Actions */}
+      <div className="flex items-center gap-2">
+        <a
+          href={getBulbapediaUrl(set.name)}
+          target="_blank"
+          rel="noopener noreferrer"
+          className="flex h-8 w-8 items-center justify-center rounded-lg border border-[var(--border)] bg-[var(--bg)] text-[var(--muted)] transition-all hover:bg-[var(--bg-soft)] hover:text-[var(--link)] hover:border-[var(--link)]"
+          title="Read History on Bulbapedia"
         >
-          Browse →
-        </Link>
-      ) : (
-        <span className="flex-shrink-0 rounded-full bg-[var(--bg)] border border-[var(--border)] px-2 py-0.5 text-[10px] font-medium text-[var(--muted)] opacity-50">
-          Coming Soon
-        </span>
-      )}
+          <ExternalLink size={14} />
+        </a>
+
+        {isReleased ? (
+          <Link
+            to={`/search?q=set.id:${set.id}`}
+            className="flex h-8 items-center gap-2 rounded-lg border border-[var(--border)] bg-[var(--bg)] px-3 text-xs font-bold text-[var(--muted)] transition-all hover:no-underline group-hover:border-[var(--accent)] group-hover:bg-[var(--accent)] group-hover:text-white"
+          >
+            Browse
+          </Link>
+        ) : (
+          <span className="rounded-lg bg-[var(--bg)] border border-[var(--border)] px-2 py-1.5 text-[10px] font-bold text-[var(--muted)] opacity-50 uppercase tracking-tighter">
+            Soon
+          </span>
+        )}
+      </div>
     </div>
   );
 }
