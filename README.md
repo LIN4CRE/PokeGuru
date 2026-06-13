@@ -1,46 +1,48 @@
-# 🃏 PokeGuru
+# 🃏 PokeGuru — The Ultimate Pokémon TCG Database
 
-[![CI](https://github.com/Linacre/PokeGuru/actions/workflows/ci.yml/badge.svg)](https://github.com/Linacre/PokeGuru/actions/workflows/ci.yml)
-[![Deploy](https://github.com/Linacre/PokeGuru/actions/workflows/deploy.yml/badge.svg)](https://github.com/Linacre/PokeGuru/actions/workflows/deploy.yml)
+[![Build & Deploy](https://github.com/Linacre/PokeGuru/actions/workflows/deploy.yml/badge.svg)](https://github.com/Linacre/PokeGuru/actions/workflows/deploy.yml)
+[![Version](https://img.shields.io/badge/Version-1.5.0-red.svg?style=flat-square)](https://github.com/Linacre/PokeGuru/releases)
+[![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg?style=flat-square)](https://opensource.org/licenses/MIT)
 
-**PokeGuru** is a fast and simple way to search every Pokémon TCG card ever made. Whether you are a serious collector or just want to see how much your childhood cards are worth, PokeGuru has you covered.
-
----
-
-### 🚀 [VIEW THE LIVE SITE HERE](https://linacre.github.io/PokeGuru/#/)
+**PokeGuru** is a lightning-fast, professional-grade database for Pokémon TCG collectors. Whether you are hunting for the latest Scarlet & Violet chase cards or researching vintage holographic values, PokeGuru has you covered with real-time pricing and personal collection tracking.
 
 ---
 
-## ✨ What can you do?
-
-*   🔍 **Quick Search** — Find any card by name in seconds.
-*   📈 **Real-Time Prices** — See the latest market prices for your cards.
-*   🇬🇧 **UK Card Wiki** — Explore every set released in the UK since 1999 (Base Set to now!).
-*   🖼️ **High-Res Art** — View beautiful full-art images of every card.
-*   📱 **Mobile Friendly** — Works perfectly on your phone or tablet.
-
-## 📦 Downloads & Releases
-
-If you are looking for the latest build files or debug versions, check the links below:
-
-*   📥 **[Download Latest Build/APK](https://github.com/Linacre/PokeGuru/releases)**
-*   🐞 **[Debug Versions](https://github.com/Linacre/PokeGuru/actions)**
+### 🚀 [ENTER THE GURU VAULT](https://linacre.github.io/PokeGuru/#/)
 
 ---
 
-## 🛠️ For Developers
+## ✨ Features for Collectors
 
-If you want to run this locally:
+*   🔍 **High-Speed Search** — Find any of the 18,000+ cards in seconds.
+*   🔒 **The Vault** — Add cards to your personal collection. Your data stays in your browser.
+*   📈 **GBP (£) Market Value** — Real-time estimated values for ungraded cards in British Pounds.
+*   🇬🇧 **UK Card Wiki** — The definitive history of every UK set released since 1999.
+*   🏆 **PSA 10 Estimates** — View average and maximum PSA 10 values for iconic historic sets.
+*   📱 **Mobile Optimised** — Built for your phone with a dedicated bottom navigation bar.
+
+## 📦 Downloads & System Health
+
+If you are a power user or looking for offline builds:
+
+*   📥 **[Download Latest Build (.zip)](https://github.com/Linacre/PokeGuru/releases)** — Manual install for local hosting.
+*   🐞 **[System Debug & Health](https://github.com/Linacre/PokeGuru/actions)** — View the latest build status and "Green Ticks".
+
+---
+
+## 🛠️ Developer Setup
+
+If you want to contribute or run this project on your own machine:
 
 1.  **Clone:** `git clone https://github.com/lin4cre/PokeGuru.git`
 2.  **Install:** `npm install`
-3.  **Run:** `npm run dev`
+3.  **Launch:** `npm run dev`
 
 ---
 
 <p align="center">
   <sub>
     Pokémon and all related names are trademarks of Nintendo, Game Freak & The Pokémon Company.<br/>
-    This is an unofficial, non-commercial fan project.
+    This is an unofficial, non-commercial fan project built for the community.
   </sub>
 </p>
