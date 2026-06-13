@@ -256,13 +256,30 @@ a:hover { text-decoration: underline; }
   border-color: var(--accent);
   text-decoration: none;
 }
+.img-container {
+  width: 100%;
+  aspect-ratio: 245 / 342;
+  background: #0b0d12;
+  position: relative;
+  overflow: hidden;
+}
+.img-container::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(90deg, transparent, rgba(255,255,255,0.03), transparent);
+  animation: shimmer 1.5s infinite;
+}
+.img-container.loaded::before { display: none; }
 .card-tile img {
   width: 100%;
+  height: 100%;
   display: block;
-  aspect-ratio: 245 / 342;
   object-fit: contain;
-  background: #0b0d12;
+  opacity: 0;
+  transition: opacity 0.3s ease;
 }
+.img-container.loaded img { opacity: 1; }
 .card-tile .card-meta {
   padding: 8px 10px 10px;
 }

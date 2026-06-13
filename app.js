@@ -7,16 +7,35 @@ const app = document.getElementById("app");
 
 /* ---------- helpers ---------- */
 
-function headers() {
-  return API_KEY ? { "X-Api-Key": API_KEY } : {};
+// Persistent-ish cache: also try to use sessionStorage for slightly better persistence across refreshes
+function getCache(key) {
+  if (cache.has(key)) return cache.get(key);
+  try {
+    const sessionData = sessionStorage.getItem(`pg_cache_${key}`);
+    if (sessionData) {
+      const parsed = JSON.parse(sessionData);
+      cache.set(key, parsed);
+      return parsed;
+    }
+  } catch (e) {}
+  return null;
+}
+
+function setCache(key, value) {
+  cache.set(key, value);
+  try {
+    sessionStorage.setItem(`pg_cache_${key}`, JSON.stringify(value));
+  } catch (e) {}
 }
 
 async function apiGet(path) {
-  if (cache.has(path)) return cache.get(path);
+  const cached = getCache(path);
+  if (cached) return cached;
+  
   const res = await fetch(`${API}${path}`, { headers: headers() });
   if (!res.ok) throw new Error(`API error ${res.status}`);
   const data = await res.json();
-  cache.set(path, data);
+  setCache(path, data);
   return data;
 }
 
@@ -58,7 +77,9 @@ function cardTile(card) {
     .join(" · ");
   return `
     <a class="card-tile" href="#/card/${esc(card.id)}">
-      <img loading="lazy" src="${esc(img)}" alt="${esc(card.name)}" />
+      <div class="img-container">
+        <img loading="lazy" src="${esc(img)}" alt="${esc(card.name)}" onload="this.parentElement.classList.add('loaded')" />
+      </div>
       <div class="card-meta">
         <div class="card-name">${esc(card.name)}</div>
         <div class="card-sub">${esc(sub)}</div>
