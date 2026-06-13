@@ -1,6 +1,6 @@
 import { useCollection } from '../hooks/useCollection';
 import { useTitle } from '../hooks/useTitle';
-import { getCardValueGBP, formatGBP, getCardMarketValueUSD } from '../utils/pricing';
+import { getCardValueGBP, formatGBP } from '../utils/pricing';
 import { Wallet, Trash2, ArrowUpDown, Info } from 'lucide-react';
 import { useMemo, useState } from 'react';
 
@@ -29,7 +29,7 @@ export default function CollectionPage() {
         </div>
         <h1 className="text-2xl font-bold">Your Collection is Empty</h1>
         <p className="mt-2 max-w-md text-[var(--muted)]">
-          Start adding cards to your personal collection to track their total market value and keep them all in one place.
+          Start adding cards to your personal collection to track their total market value in GBP (£) and keep them all in one place.
         </p>
         <a href="#/" className="mt-8 rounded-xl bg-[var(--accent)] px-8 py-3 font-bold text-white hover:bg-[#dc2626] transition-all">
           Browse Cards
@@ -94,7 +94,7 @@ export default function CollectionPage() {
               </div>
               <div className="mt-3">
                 <h3 className="truncate text-sm font-bold text-[var(--text)]">{item.card.name}</h3>
-                <p className="text-xs font-bold text-[#10b981]">{formatGBP(getCardMarketValueUSD(item.card))}</p>
+                <p className="text-xs font-bold text-[#10b981]">{formatGBP(getCardValueGBP(item.card))}</p>
               </div>
             </a>
             <button

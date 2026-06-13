@@ -25,7 +25,7 @@ export default function AboutPage() {
           </p>
 
           <div className="mt-8 flex flex-wrap justify-center gap-2">
-            {['React 19', 'Vite 7', 'Tailwind 4', 'TypeScript', 'UK-Centric', 'Open Source'].map(tag => (
+            {['React 19', 'Vite 8', 'Tailwind 4', 'TypeScript', 'UK-Centric', 'Open Source'].map(tag => (
               <span key={tag} className="rounded-full bg-[var(--bg)] border border-[var(--border)] px-3 py-1 text-[10px] font-bold uppercase tracking-widest text-[var(--muted)]">
                 {tag}
               </span>
@@ -171,10 +171,6 @@ export default function AboutPage() {
               <li className="flex items-center gap-2 opacity-50">
                 <div className="h-1.5 w-1.5 rounded-full bg-[var(--muted)]" />
                 Price Alert System
-              </li>
-              <li className="flex items-center gap-2 opacity-50">
-                <div className="h-1.5 w-1.5 rounded-full bg-[var(--muted)]" />
-                Multi-Currency Support
               </li>
             </ul>
           </div>

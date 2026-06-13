@@ -1,6 +1,7 @@
 import { Link } from 'react-router-dom';
 import { useState } from 'react';
 import type { PokemonCard } from '../../types/pokemon';
+import { getCardValueGBP, formatGBP } from '../../utils/pricing';
 
 interface CardTileProps {
   card: PokemonCard;
@@ -13,6 +14,7 @@ export default function CardTile({ card }: CardTileProps) {
   const subtitle = [card.set?.name, card.number ? `#${card.number}` : '']
     .filter(Boolean)
     .join(' · ');
+  const value = getCardValueGBP(card);
 
   return (
     <Link
@@ -31,9 +33,14 @@ export default function CardTile({ card }: CardTileProps) {
         )}
       </div>
       <div className="p-3 bg-gradient-to-t from-[var(--bg-soft)] to-transparent">
-        <h3 className="truncate text-sm font-bold text-[var(--text)] group-hover:text-[var(--accent)] transition-colors">
-          {card.name}
-        </h3>
+        <div className="flex items-baseline justify-between gap-1">
+          <h3 className="truncate text-sm font-bold text-[var(--text)] group-hover:text-[var(--accent)] transition-colors">
+            {card.name}
+          </h3>
+          {value > 0 && (
+            <span className="shrink-0 text-xs font-black text-[#10b981]">{formatGBP(value)}</span>
+          )}
+        </div>
         <p className="truncate text-[10px] font-bold uppercase tracking-tighter text-[var(--muted)]">{subtitle}</p>
       </div>
     </Link>

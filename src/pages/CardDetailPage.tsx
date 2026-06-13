@@ -5,16 +5,11 @@ import { useCard, useCardSearch } from '../hooks/useApi';
 import { useTitle } from '../hooks/useTitle';
 import { getAllSets } from '../data/ukSets';
 import { useCollection } from '../hooks/useCollection';
-import { getCardMarketValueUSD, formatGBP } from '../utils/pricing';
+import { getCardValueGBP, formatGBP, formatGBPFromUSD } from '../utils/pricing';
 import LoadingSpinner from '../components/UI/LoadingSpinner';
 import ErrorMessage from '../components/UI/ErrorMessage';
 import CardGrid from '../components/Cards/CardGrid';
 import type { PokemonCard, TCGPlayerPrice } from '../types/pokemon';
-
-function formatCurrency(amount: number | undefined, currency: string = '$'): string {
-  if (amount === undefined || amount === null) return '—';
-  return `${currency}${amount.toLocaleString(undefined, { minimumFractionDigits: 2, maximumFractionDigits: 2 })}`;
-}
 
 function getBestPrice(card: PokemonCard): { label: string; price: TCGPlayerPrice } | null {
   const prices = card.tcgplayer?.prices;
@@ -241,50 +236,40 @@ export default function CardDetailPage() {
             </div>
           )}
 
-          {/* Market Prices */}
-          <div className="mb-4 grid gap-4 sm:grid-cols-2">
-            <div className="rounded-[var(--radius)] border border-[var(--border)] bg-gradient-to-br from-[#10b981]/10 to-transparent p-4">
-              <h3 className="mb-1 text-xs font-bold uppercase tracking-widest text-[#10b981]">Estimated Value</h3>
-              <p className="text-3xl font-black text-[var(--text)]">{formatGBP(getCardMarketValueUSD(card))}</p>
-              <p className="mt-1 text-[10px] font-medium text-[var(--muted)] uppercase tracking-tighter">Avg. Ungraded / Near Mint (GBP)</p>
-            </div>
-
-            {priceInfo && (
-              <div className="rounded-[var(--radius)] border border-[var(--border)] bg-[var(--bg-card)] p-4">
-                <h3 className="mb-1 text-xs font-bold uppercase tracking-widest text-[var(--accent-2)]">Live Market (USD)</h3>
-                <p className="text-3xl font-black text-[var(--text)]">{formatCurrency(priceInfo.price.market)}</p>
-                <p className="mt-1 text-[10px] font-medium text-[var(--muted)] uppercase tracking-tighter">Source: TCGPlayer {priceInfo.label}</p>
-              </div>
-            )}
+          {/* Market Value */}
+          <div className="mb-4 rounded-[var(--radius)] border border-[var(--border)] bg-gradient-to-br from-[#10b981]/10 to-transparent p-4">
+            <h3 className="mb-1 text-xs font-bold uppercase tracking-widest text-[#10b981]">Estimated Value (GBP)</h3>
+            <p className="text-3xl font-black text-[var(--text)]">{formatGBP(getCardValueGBP(card))}</p>
+            <p className="mt-1 text-[10px] font-medium text-[var(--muted)] uppercase tracking-tighter">Avg. Ungraded / Near Mint</p>
           </div>
 
-          {/* Detailed Prices Accordion */}
+          {/* Detailed Prices */}
           {priceInfo && (
             <div className="mb-4 rounded-[var(--radius)] border border-[var(--border)] bg-[var(--bg-card)] p-4">
-              <h3 className="mb-3 text-sm font-bold text-[var(--muted)] uppercase tracking-widest">Price Breakdown (USD)</h3>
+              <h3 className="mb-3 text-sm font-bold text-[var(--muted)] uppercase tracking-widest">Price Breakdown (GBP)</h3>
               <div className="grid grid-cols-2 gap-3 sm:grid-cols-4">
                 <div>
                   <p className="text-xs text-[var(--muted)]">Low</p>
                   <p className="text-lg font-semibold text-[var(--text)]">
-                    {formatCurrency(priceInfo.price.low)}
+                    {formatGBPFromUSD(priceInfo.price.low)}
                   </p>
                 </div>
                 <div>
                   <p className="text-xs text-[var(--muted)]">Mid</p>
                   <p className="text-lg font-semibold text-[var(--text)]">
-                    {formatCurrency(priceInfo.price.mid)}
+                    {formatGBPFromUSD(priceInfo.price.mid)}
                   </p>
                 </div>
                 <div>
                   <p className="text-xs text-[var(--muted)]">High</p>
                   <p className="text-lg font-semibold text-[var(--text)]">
-                    {formatCurrency(priceInfo.price.high)}
+                    {formatGBPFromUSD(priceInfo.price.high)}
                   </p>
                 </div>
                 <div>
                   <p className="text-xs text-[var(--muted)]">Market</p>
                   <p className="text-lg font-semibold text-[var(--accent)]">
-                    {formatCurrency(priceInfo.price.market)}
+                    {formatGBPFromUSD(priceInfo.price.market)}
                   </p>
                 </div>
               </div>

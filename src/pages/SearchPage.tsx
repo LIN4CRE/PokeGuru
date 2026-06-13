@@ -2,6 +2,7 @@ import { useState } from 'react';
 import { useSearchParams } from 'react-router-dom';
 import { useCardSearch } from '../hooks/useApi';
 import { useTitle } from '../hooks/useTitle';
+import { getCardValueGBP } from '../utils/pricing';
 import type { CardType, SortOption } from '../types/pokemon';
 import CardGrid from '../components/Cards/CardGrid';
 import Pagination from '../components/UI/Pagination';
@@ -45,6 +46,8 @@ const SUPERTYPES = [
 
 const SORT_OPTIONS: { value: SortOption; label: string }[] = [
   { value: '', label: 'Name (A–Z)' },
+  { value: 'value_high', label: 'Highest Value' },
+  { value: 'value_low', label: 'Lowest Value' },
   { value: 'newest', label: 'Newest sets' },
   { value: 'oldest', label: 'Oldest sets' },
 ];
@@ -189,7 +192,13 @@ export default function SearchPage() {
 
       {data && (
         <>
-          <CardGrid cards={data.data} />
+          <CardGrid cards={
+            sort === 'value_high'
+              ? [...data.data].sort((a, b) => getCardValueGBP(b) - getCardValueGBP(a))
+              : sort === 'value_low'
+              ? [...data.data].sort((a, b) => getCardValueGBP(a) - getCardValueGBP(b))
+              : data.data
+          } />
           <Pagination
             currentPage={page}
             totalCount={data.totalCount || 0}

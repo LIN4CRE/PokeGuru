@@ -1,8 +1,9 @@
 import { useParams, Link } from 'react-router-dom';
-import { ArrowLeft, Calendar, Layers } from 'lucide-react';
-import { useState } from 'react';
+import { ArrowLeft, Calendar, Layers, ArrowUpDown } from 'lucide-react';
+import { useState, useMemo } from 'react';
 import { useSetCards } from '../hooks/useApi';
 import { useTitle } from '../hooks/useTitle';
+import { getCardValueGBP } from '../utils/pricing';
 import CardGrid from '../components/Cards/CardGrid';
 import Pagination from '../components/UI/Pagination';
 import LoadingSpinner from '../components/UI/LoadingSpinner';
@@ -12,8 +13,17 @@ export default function SetDetailPage() {
   const { id } = useParams<{ id: string }>();
   const [page, setPage] = useState(1);
   const [retryCount, setRetryCount] = useState(0);
+  const [sortBy, setSortBy] = useState<'number' | 'value_high' | 'value_low'>('number');
   const { data, loading, set, setError } = useSetCards(id || '', page, retryCount);
   useTitle(set?.name);
+
+  const sortedCards = useMemo(() => {
+    if (!data?.data) return [];
+    const cards = [...data.data];
+    if (sortBy === 'value_high') return cards.sort((a, b) => getCardValueGBP(b) - getCardValueGBP(a));
+    if (sortBy === 'value_low') return cards.sort((a, b) => getCardValueGBP(a) - getCardValueGBP(b));
+    return cards;
+  }, [data, sortBy]);
 
   const handlePageChange = (newPage: number) => {
     setPage(newPage);
@@ -81,12 +91,25 @@ export default function SetDetailPage() {
         </div>
       )}
 
-      {/* Cards Grid */}
+      {/* Sort & Cards Grid */}
       {loading ? (
         <LoadingSpinner message="Loading cards..." />
       ) : data ? (
         <>
-          <CardGrid cards={data.data} emptyMessage="No cards found in this set." />
+          <div className="mb-4 flex items-center justify-end gap-2">
+            <ArrowUpDown size={14} className="text-[var(--muted)]" />
+            <span className="text-[10px] font-bold uppercase tracking-widest text-[var(--muted)]">Sort:</span>
+            <select
+              value={sortBy}
+              onChange={(e) => setSortBy(e.target.value as 'number' | 'value_high' | 'value_low')}
+              className="rounded-lg border border-[var(--border)] bg-[var(--bg-card)] px-3 py-1.5 text-xs font-semibold text-[var(--text)] outline-none focus:border-[var(--accent)]"
+            >
+              <option value="number">Card Number</option>
+              <option value="value_high">Highest Value</option>
+              <option value="value_low">Lowest Value</option>
+            </select>
+          </div>
+          <CardGrid cards={sortedCards} emptyMessage="No cards found in this set." />
           <Pagination
             currentPage={page}
             totalCount={data.totalCount || 0}

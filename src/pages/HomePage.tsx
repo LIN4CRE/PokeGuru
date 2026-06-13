@@ -38,7 +38,7 @@ export default function HomePage() {
             The Pokémon Card <span className="text-[var(--accent)]">Guru</span>
           </h1>
           <p className="mx-auto mb-10 max-w-xl text-lg text-[var(--muted)] md:text-xl">
-            A lightning-fast cards database with real-time prices, UK set history, and advanced search tools.
+            A lightning-fast cards database with UK market prices in GBP (£), set history, and advanced search tools.
           </p>
 
           {/* Search Form */}

@@ -150,4 +150,4 @@ export type CardType =
   | "Psychic"
   | "Water";
 
-export type SortOption = "" | "newest" | "oldest" | "name";
+export type SortOption = "" | "newest" | "oldest" | "name" | "value_high" | "value_low";
