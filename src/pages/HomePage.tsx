@@ -2,11 +2,13 @@ import { useState, FormEvent } from 'react';
 import { useNavigate, Link } from 'react-router-dom';
 import { Book, Layers } from 'lucide-react';
 import { useFeaturedCards } from '../hooks/useApi';
+import { useTitle } from '../hooks/useTitle';
 import { getTotalSetCount, getTotalCardCount } from '../data/ukSets';
 import CardGrid from '../components/Cards/CardGrid';
 import LoadingSpinner from '../components/UI/LoadingSpinner';
 
 export default function HomePage() {
+  useTitle('Home');
   const [searchQuery, setSearchQuery] = useState('');
   const navigate = useNavigate();
   const { data: featuredCards, loading, error } = useFeaturedCards();
@@ -73,46 +75,65 @@ export default function HomePage() {
       </section>
 
       {/* Quick Feature Cards */}
-      <section className="mb-10">
-        <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
+      <section className="mb-16">
+        <div className="grid gap-6 sm:grid-cols-2 lg:grid-cols-4">
           <Link
-            to="/wiki"
-            className="group flex items-center gap-4 rounded-xl border border-[var(--border)] bg-[var(--bg-card)] p-5 transition-all hover:-translate-y-1 hover:border-[var(--accent)] hover:shadow-[var(--shadow)] hover:no-underline"
+            to="/collection"
+            className="group glass relative flex flex-col gap-4 rounded-3xl p-6 transition-all hover:-translate-y-2 hover:border-[var(--accent)] hover:shadow-2xl hover:no-underline"
           >
-            <div className="flex h-12 w-12 flex-shrink-0 items-center justify-center rounded-xl bg-[var(--accent)]/20">
-              <Book size={24} className="text-[var(--accent)]" />
+            <div className="flex h-12 w-12 items-center justify-center rounded-2xl bg-[var(--accent)]/20 text-[var(--accent)] shadow-inner">
+              <Wallet size={24} />
             </div>
             <div>
-              <h3 className="font-semibold text-[var(--text)] group-hover:text-[var(--accent)]">🇬🇧 UK Card Wiki</h3>
-              <p className="text-xs text-[var(--muted)]">
-                {getTotalSetCount()} sets · {getTotalCardCount().toLocaleString()} cards · Base Set to today
+              <h3 className="font-extrabold text-[var(--text)] group-hover:text-[var(--accent)] transition-colors">The Vault</h3>
+              <p className="mt-1 text-xs leading-relaxed text-[var(--muted)]">
+                Track your personal collection & live portfolio value.
+              </p>
+            </div>
+          </Link>
+
+          <Link
+            to="/wiki"
+            className="group glass relative flex flex-col gap-4 rounded-3xl p-6 transition-all hover:-translate-y-2 hover:border-[var(--accent-2)] hover:shadow-2xl hover:no-underline"
+          >
+            <div className="flex h-12 w-12 items-center justify-center rounded-2xl bg-[var(--accent-2)]/20 text-[var(--accent-2)] shadow-inner">
+              <Book size={24} />
+            </div>
+            <div>
+              <h3 className="font-extrabold text-[var(--text)] group-hover:text-[var(--accent-2)] transition-colors">UK Wiki</h3>
+              <p className="mt-1 text-xs leading-relaxed text-[var(--muted)]">
+                Explore {getTotalSetCount()} iconic UK sets from 1999 to today.
               </p>
             </div>
           </Link>
 
           <Link
             to="/sets"
-            className="group flex items-center gap-4 rounded-xl border border-[var(--border)] bg-[var(--bg-card)] p-5 transition-all hover:-translate-y-1 hover:border-[var(--accent-2)] hover:shadow-[var(--shadow)] hover:no-underline"
+            className="group glass relative flex flex-col gap-4 rounded-3xl p-6 transition-all hover:-translate-y-2 hover:border-[var(--link)] hover:shadow-2xl hover:no-underline"
           >
-            <div className="flex h-12 w-12 flex-shrink-0 items-center justify-center rounded-xl bg-[var(--accent-2)]/20">
-              <Layers size={24} className="text-[var(--accent-2)]" />
+            <div className="flex h-12 w-12 items-center justify-center rounded-2xl bg-[var(--link)]/20 text-[var(--link)] shadow-inner">
+              <Layers size={24} />
             </div>
             <div>
-              <h3 className="font-semibold text-[var(--text)] group-hover:text-[var(--accent-2)]">Browse Sets</h3>
-              <p className="text-xs text-[var(--muted)]">Explore every TCG set with card lists</p>
+              <h3 className="font-extrabold text-[var(--text)] group-hover:text-[var(--link)] transition-colors">All Sets</h3>
+              <p className="mt-1 text-xs leading-relaxed text-[var(--muted)]">
+                Browse every expansion including modern Japanese releases.
+              </p>
             </div>
           </Link>
 
           <Link
-            to="/search?q=rarity:%22Illustration%20Rare%22"
-            className="group flex items-center gap-4 rounded-xl border border-[var(--border)] bg-[var(--bg-card)] p-5 transition-all hover:-translate-y-1 hover:border-[var(--link)] hover:shadow-[var(--shadow)] hover:no-underline sm:col-span-2 lg:col-span-1"
+            to="/search?q=rarity:%22Special%20Illustration%20Rare%22"
+            className="group glass relative flex flex-col gap-4 rounded-3xl p-6 transition-all hover:-translate-y-2 hover:border-purple-500 hover:shadow-2xl hover:no-underline"
           >
-            <div className="flex h-12 w-12 flex-shrink-0 items-center justify-center rounded-xl bg-[var(--link)]/20 text-2xl">
-              ✨
+            <div className="flex h-12 w-12 items-center justify-center rounded-2xl bg-purple-500/20 text-purple-400 shadow-inner">
+              <span className="text-xl">✨</span>
             </div>
             <div>
-              <h3 className="font-semibold text-[var(--text)] group-hover:text-[var(--link)]">Chase Cards</h3>
-              <p className="text-xs text-[var(--muted)]">Find the rarest Illustration Rares</p>
+              <h3 className="font-extrabold text-[var(--text)] group-hover:text-purple-400 transition-colors">Chase Cards</h3>
+              <p className="mt-1 text-xs leading-relaxed text-[var(--muted)]">
+                Discover the rarest Special Illustration Rares.
+              </p>
             </div>
           </Link>
         </div>

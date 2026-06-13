@@ -1,10 +1,12 @@
 import { useCollection } from '../hooks/useCollection';
+import { useTitle } from '../hooks/useTitle';
 import { getCardValueGBP, formatGBP } from '../utils/pricing';
 import CardGrid from '../components/Cards/CardGrid';
 import { Wallet, Trash2, ArrowUpDown, Info } from 'lucide-react';
 import { useMemo, useState } from 'react';
 
 export default function CollectionPage() {
+  useTitle('My Collection');
   const { collection, removeFromCollection } = useCollection();
   const [sortBy, setSortBy] = useState<'value' | 'name' | 'added'>('value');
 

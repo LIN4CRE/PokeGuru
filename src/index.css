@@ -48,15 +48,62 @@ body {
   opacity: 0.03;
 }
 
+/* Premium effects */
+.glass {
+  background: rgba(30, 34, 48, 0.7);
+  backdrop-filter: blur(12px);
+  border: 1px solid rgba(255, 255, 255, 0.05);
+}
+
+.glass-dark {
+  background: rgba(15, 17, 21, 0.8);
+  backdrop-filter: blur(16px);
+  border-bottom: 1px solid var(--border);
+}
+
+/* Holographic Shimmer */
+.holo-shimmer {
+  position: relative;
+  overflow: hidden;
+}
+
+.holo-shimmer::before {
+  content: "";
+  position: absolute;
+  top: -150%;
+  left: -150%;
+  width: 400%;
+  height: 400%;
+  background: linear-gradient(
+    45deg,
+    transparent 45%,
+    rgba(255, 255, 255, 0.1) 48%,
+    rgba(255, 255, 255, 0.3) 50%,
+    rgba(255, 255, 255, 0.1) 52%,
+    transparent 55%
+  );
+  transform: rotate(-45deg);
+  transition: all 0.6s;
+  z-index: 1;
+  pointer-events: none;
+  opacity: 0;
+}
+
+.group:hover .holo-shimmer::before {
+  opacity: 1;
+  top: -100%;
+  left: -100%;
+}
+
 /* Card hover glow */
 .card-glow {
   position: relative;
-  transition: all 0.3s cubic-bezier(0.23, 1, 0.32, 1);
+  transition: all 0.4s cubic-bezier(0.23, 1, 0.32, 1);
 }
 
 .card-glow:hover {
-  transform: translateY(-4px);
-  box-shadow: 0 10px 30px -10px rgba(0, 0, 0, 0.5);
+  transform: translateY(-6px) scale(1.02);
+  box-shadow: 0 20px 40px -15px rgba(0, 0, 0, 0.6);
 }
 
 .card-glow:hover::after {
@@ -66,9 +113,19 @@ body {
   background: linear-gradient(135deg, var(--accent), var(--accent-2), var(--link));
   border-radius: inherit;
   z-index: -1;
-  opacity: 0.3;
-  filter: blur(8px);
+  opacity: 0.4;
+  filter: blur(12px);
 }
+
+/* Mobile Nav Hide Scrollbar */
+.no-scrollbar::-webkit-scrollbar {
+  display: none;
+}
+.no-scrollbar {
+  -ms-overflow-style: none;
+  scrollbar-width: none;
+}
+
 
 a {
   color: var(--link);

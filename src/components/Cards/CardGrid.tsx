@@ -16,7 +16,7 @@ export default function CardGrid({ cards, emptyMessage = 'No cards found.' }: Ca
   }
 
   return (
-    <div className="grid grid-cols-[repeat(auto-fill,minmax(160px,1fr))] gap-4">
+    <div className="grid grid-cols-2 gap-4 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 xl:grid-cols-6">
       {cards.map((card) => (
         <CardTile key={card.id} card={card} />
       ))}

@@ -113,58 +113,66 @@ export default function SearchPage() {
       </div>
 
       {/* Filters */}
-      <div className="mb-6 flex flex-wrap gap-3">
-        <select
-          value={supertype}
-          onChange={(e) => updateParams({ supertype: e.target.value })}
-          className="rounded-lg border border-[var(--border)] bg-[var(--bg-card)] px-3 py-2 text-sm text-[var(--text)] outline-none focus:border-[var(--accent)]"
-          aria-label="Filter by supertype"
-        >
-          {SUPERTYPES.map((s) => (
-            <option key={s} value={s}>
-              {s ? `Supertype: ${s}` : 'All supertypes'}
-            </option>
-          ))}
-        </select>
+      <div className="sticky top-[72px] z-10 mb-8 flex flex-wrap gap-3 glass p-4 rounded-2xl shadow-xl">
+        <div className="flex flex-col gap-1.5 min-w-[140px] flex-1">
+          <label className="text-[10px] font-bold uppercase tracking-widest text-[var(--muted)] ml-1">Category</label>
+          <select
+            value={supertype}
+            onChange={(e) => updateParams({ supertype: e.target.value })}
+            className="w-full rounded-xl border border-[var(--border)] bg-[var(--bg)]/50 px-3 py-2 text-sm font-bold text-[var(--text)] outline-none focus:border-[var(--accent)] transition-all"
+          >
+            {SUPERTYPES.map((s) => (
+              <option key={s} value={s}>
+                {s ? s : 'All Categories'}
+              </option>
+            ))}
+          </select>
+        </div>
 
-        <select
-          value={type}
-          onChange={(e) => handleTypeChange(e.target.value)}
-          className="rounded-lg border border-[var(--border)] bg-[var(--bg-card)] px-3 py-2 text-sm text-[var(--text)] outline-none focus:border-[var(--accent)]"
-          aria-label="Filter by type"
-        >
-          {CARD_TYPES.map((t) => (
-            <option key={t} value={t}>
-              {t ? `Type: ${t}` : 'All types'}
-            </option>
-          ))}
-        </select>
+        <div className="flex flex-col gap-1.5 min-w-[140px] flex-1">
+          <label className="text-[10px] font-bold uppercase tracking-widest text-[var(--muted)] ml-1">Type</label>
+          <select
+            value={type}
+            onChange={(e) => handleTypeChange(e.target.value)}
+            className="w-full rounded-xl border border-[var(--border)] bg-[var(--bg)]/50 px-3 py-2 text-sm font-bold text-[var(--text)] outline-none focus:border-[var(--accent)] transition-all"
+          >
+            {CARD_TYPES.map((t) => (
+              <option key={t} value={t}>
+                {t ? t : 'All Types'}
+              </option>
+            ))}
+          </select>
+        </div>
 
-        <select
-          value={rarity}
-          onChange={(e) => updateParams({ rarity: e.target.value })}
-          className="rounded-lg border border-[var(--border)] bg-[var(--bg-card)] px-3 py-2 text-sm text-[var(--text)] outline-none focus:border-[var(--accent)]"
-          aria-label="Filter by rarity"
-        >
-          {RARITIES.map((r) => (
-            <option key={r} value={r}>
-              {r ? `Rarity: ${r}` : 'All rarities'}
-            </option>
-          ))}
-        </select>
+        <div className="flex flex-col gap-1.5 min-w-[140px] flex-1">
+          <label className="text-[10px] font-bold uppercase tracking-widest text-[var(--muted)] ml-1">Rarity</label>
+          <select
+            value={rarity}
+            onChange={(e) => updateParams({ rarity: e.target.value })}
+            className="w-full rounded-xl border border-[var(--border)] bg-[var(--bg)]/50 px-3 py-2 text-sm font-bold text-[var(--text)] outline-none focus:border-[var(--accent)] transition-all"
+          >
+            {RARITIES.map((r) => (
+              <option key={r} value={r}>
+                {r ? r : 'All Rarities'}
+              </option>
+            ))}
+          </select>
+        </div>
 
-        <select
-          value={sort}
-          onChange={(e) => handleSortChange(e.target.value)}
-          className="rounded-lg border border-[var(--border)] bg-[var(--bg-card)] px-3 py-2 text-sm text-[var(--text)] outline-none focus:border-[var(--accent)] ml-auto"
-          aria-label="Sort results"
-        >
-          {SORT_OPTIONS.map((opt) => (
-            <option key={opt.value} value={opt.value}>
-              Sort: {opt.label}
-            </option>
-          ))}
-        </select>
+        <div className="flex flex-col gap-1.5 min-w-[140px] flex-1">
+          <label className="text-[10px] font-bold uppercase tracking-widest text-[var(--muted)] ml-1">Sort</label>
+          <select
+            value={sort}
+            onChange={(e) => handleSortChange(e.target.value)}
+            className="w-full rounded-xl border border-[var(--border)] bg-[var(--bg)]/50 px-3 py-2 text-sm font-bold text-[var(--text)] outline-none focus:border-[var(--accent)] transition-all"
+          >
+            {SORT_OPTIONS.map((opt) => (
+              <option key={opt.value} value={opt.value}>
+                {opt.label}
+              </option>
+            ))}
+          </select>
+        </div>
       </div>
 
       {/* Results */}

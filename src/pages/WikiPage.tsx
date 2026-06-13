@@ -1,6 +1,7 @@
 import { useState, useMemo, useRef, useEffect } from 'react';
 import { Link, useSearchParams } from 'react-router-dom';
 import { Book, ChevronDown, ChevronRight, Search, Layers, Calendar, Hash, Filter, ExternalLink } from 'lucide-react';
+import { useTitle } from '../hooks/useTitle';
 import UK_ERAS, { getTotalSetCount, getTotalCardCount } from '../data/ukSets';
 import type { WikiSet } from '../data/ukSets';
 
@@ -12,6 +13,7 @@ function getBulbapediaUrl(setName: string) {
 }
 
 export default function WikiPage() {
+  useTitle('UK Card Wiki');
   const [searchParams, setSearchParams] = useSearchParams();
   const initialEra = searchParams.get('era') || '';
   const initialSearch = searchParams.get('q') || '';

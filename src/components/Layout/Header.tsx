@@ -15,7 +15,7 @@ export default function Header() {
   };
 
   return (
-    <header className="sticky top-0 z-20 flex flex-wrap items-center gap-4 border-b border-[var(--border)] bg-[rgba(15,17,21,0.85)] px-4 py-3 backdrop-blur-md md:px-6">
+    <header className="sticky top-0 z-20 flex flex-wrap items-center gap-4 glass-dark px-4 py-3 md:px-6">
       {/* Brand */}
       <Link to="/" className="flex items-center gap-2.5 text-xl font-semibold text-[var(--text)] hover:no-underline">
         <div className="pokeball relative h-6 w-6 rounded-full border-[3px] border-[#111] bg-gradient-to-b from-[#ef4444] from-50% to-white to-50% shadow-[inset_0_0_0_2px_#fff]">
@@ -29,19 +29,19 @@ export default function Header() {
       {/* Search */}
       <form
         onSubmit={handleSearch}
-        className="flex flex-1 max-w-[560px] min-w-[200px] overflow-hidden rounded-full border border-[var(--border)] bg-[var(--bg-card)]"
+        className="flex flex-1 max-w-[560px] min-w-[200px] overflow-hidden rounded-xl border border-[var(--border)] bg-[var(--bg)]/50 focus-within:border-[var(--accent)] focus-within:ring-1 focus-within:ring-[var(--accent)] transition-all"
       >
         <input
           type="search"
           value={searchQuery}
           onChange={(e) => setSearchQuery(e.target.value)}
-          placeholder="Search cards..."
-          className="flex-1 border-none bg-transparent px-4 py-2.5 text-sm text-[var(--text)] outline-none placeholder:text-[var(--muted)]"
+          placeholder="Search 18,000+ cards..."
+          className="flex-1 border-none bg-transparent px-4 py-2 text-sm text-[var(--text)] outline-none placeholder:text-[var(--muted)]"
           aria-label="Search cards"
         />
         <button
           type="submit"
-          className="border-none bg-transparent px-4 text-[var(--muted)] hover:text-[var(--accent)] transition-colors"
+          className="border-none bg-transparent px-4 text-[var(--muted)] hover:text-[var(--accent)] transition-colors active:scale-90"
           aria-label="Submit search"
         >
           <Search size={18} />
@@ -49,45 +49,46 @@ export default function Header() {
       </form>
 
       {/* Navigation */}
-      <nav className="flex items-center gap-4">
+      <nav className="hidden items-center gap-4 sm:flex">
         <Link
           to="/collection"
-          className="flex items-center gap-1.5 font-medium text-[var(--muted)] hover:text-[var(--text)] hover:no-underline transition-colors"
+          className="flex items-center gap-1.5 font-bold text-xs uppercase tracking-widest text-[var(--muted)] hover:text-[var(--text)] hover:no-underline transition-colors"
           title="My Collection"
         >
-          <Wallet size={16} />
-          <span className="hidden sm:inline">Collection</span>
+          <Wallet size={16} className="text-[var(--accent)]" />
+          <span>Vault</span>
         </Link>
         <Link
           to="/wiki"
-          className="flex items-center gap-1.5 font-medium text-[var(--muted)] hover:text-[var(--text)] hover:no-underline transition-colors"
+          className="flex items-center gap-1.5 font-bold text-xs uppercase tracking-widest text-[var(--muted)] hover:text-[var(--text)] hover:no-underline transition-colors"
         >
           <Book size={16} />
-          <span className="hidden sm:inline">Wiki</span>
+          <span>Wiki</span>
         </Link>
         <Link
           to="/sets"
-          className="flex items-center gap-1.5 font-medium text-[var(--muted)] hover:text-[var(--text)] hover:no-underline transition-colors"
+          className="flex items-center gap-1.5 font-bold text-xs uppercase tracking-widest text-[var(--muted)] hover:text-[var(--text)] hover:no-underline transition-colors"
         >
           <Layers size={16} />
-          <span className="hidden sm:inline">Sets</span>
+          <span>Sets</span>
         </Link>
         <Link
           to="/scanner"
-          className="flex items-center gap-1.5 font-medium text-[var(--muted)] hover:text-[var(--text)] hover:no-underline transition-colors"
+          className="flex items-center gap-1.5 font-bold text-xs uppercase tracking-widest text-[var(--muted)] hover:text-[var(--text)] hover:no-underline transition-colors"
         >
           <Camera size={16} />
-          <span className="hidden sm:inline">Scan</span>
-        </Link>
-        <Link
-          to="/about"
-          className="flex items-center gap-1.5 font-medium text-[var(--muted)] hover:text-[var(--text)] hover:no-underline transition-colors"
-          title="About PokeGuru"
-        >
-          <AlertCircle size={16} />
-          <span className="hidden sm:inline">About</span>
+          <span>Scan</span>
         </Link>
       </nav>
+
+      <Link
+        to="/about"
+        className="ml-auto hidden sm:flex items-center gap-1.5 rounded-full bg-[var(--bg-soft)] border border-[var(--border)] px-3 py-1 font-bold text-[10px] uppercase tracking-tighter text-[var(--muted)] hover:text-[var(--text)] hover:border-[var(--accent)] transition-all"
+        title="About PokeGuru"
+      >
+        <AlertCircle size={12} />
+        <span>About</span>
+      </Link>
     </header>
   );
 }

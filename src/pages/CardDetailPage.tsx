@@ -1,12 +1,14 @@
 import { useState } from 'react';
 import { useParams, useNavigate, Link } from 'react-router-dom';
-import { ArrowLeft, ExternalLink, TrendingUp, Heart, Wallet } from 'lucide-react';
-import { useCard } from '../hooks/useApi';
+import { ArrowLeft, ExternalLink, TrendingUp, Heart, Wallet, Box } from 'lucide-react';
+import { useCard, useCardSearch } from '../hooks/useApi';
+import { useTitle } from '../hooks/useTitle';
 import { getAllSets } from '../data/ukSets';
 import { useCollection } from '../hooks/useCollection';
 import { getCardMarketValueUSD, formatGBP } from '../utils/pricing';
 import LoadingSpinner from '../components/UI/LoadingSpinner';
 import ErrorMessage from '../components/UI/ErrorMessage';
+import CardGrid from '../components/Cards/CardGrid';
 import type { PokemonCard, TCGPlayerPrice } from '../types/pokemon';
 
 function formatCurrency(amount: number | undefined, currency: string = '$'): string {
@@ -43,6 +45,17 @@ export default function CardDetailPage() {
   const [retryCount, setRetryCount] = useState(0);
   const { data: card, loading, error } = useCard(id || '', retryCount);
   const { addToCollection, removeFromCollection, isInCollection } = useCollection();
+  useTitle(card?.name);
+
+  // Related cards (same name)
+  const { data: relatedData } = useCardSearch(
+    card?.name ? `name:"${card.name}" -id:${card.id}` : '',
+    '',
+    'newest',
+    1,
+    {},
+    retryCount
+  );
 
   if (loading) {
     return <LoadingSpinner message="Loading card details..." />;
@@ -315,11 +328,24 @@ export default function CardDetailPage() {
           {/* Artist */}
           {card.artist && (
             <p className="text-sm text-[var(--muted)]">
-              Illustrated by <span className="text-[var(--text)]">{card.artist}</span>
+              Illustrated by <span className="text-[var(--text)] font-semibold">{card.artist}</span>
             </p>
           )}
         </div>
       </div>
+
+      {/* Related Cards */}
+      {relatedData && relatedData.data.length > 0 && (
+        <section className="mt-16 border-t border-[var(--border)] pt-12">
+          <div className="mb-6 flex items-center gap-3">
+            <div className="rounded-xl bg-purple-500/10 p-2 text-purple-400">
+              <Box size={24} />
+            </div>
+            <h2 className="text-2xl font-bold">More {card.name} Cards</h2>
+          </div>
+          <CardGrid cards={relatedData.data.slice(0, 6)} />
+        </section>
+      )}
     </div>
   );
 }
