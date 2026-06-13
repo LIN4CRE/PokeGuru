@@ -1,4 +1,4 @@
-import { Book, Search, Layers, Github, ExternalLink, ShieldCheck, Zap } from 'lucide-react';
+import { Book, Search, Layers, Code, ExternalLink, ShieldCheck, Zap } from 'lucide-react';
 
 export default function AboutPage() {
   return (
@@ -137,7 +137,7 @@ export default function AboutPage() {
                 rel="noopener noreferrer"
                 className="flex w-full items-center justify-center gap-2 rounded-lg bg-[var(--text)] py-2 text-sm font-semibold text-[var(--bg)] hover:opacity-90 transition-opacity"
               >
-                <Github size={18} />
+                <Code size={18} />
                 View on GitHub
               </a>
             </div>
