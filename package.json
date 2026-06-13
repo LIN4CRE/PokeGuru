@@ -1,7 +1,7 @@
 {
   "name": "pokeguru",
   "private": true,
-  "version": "1.5.6",
+  "version": "1.6.0",
   "description": "Pokémon TCG card database with pricing, set browsing, and card scanning",
   "author": "LIN4CRE",
   "license": "MIT",

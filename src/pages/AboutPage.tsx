@@ -130,7 +130,7 @@ export default function AboutPage() {
             <ul className="space-y-5 text-sm">
               <li className="flex items-center justify-between">
                 <span className="font-bold text-[var(--muted)] uppercase tracking-tighter text-[10px]">Stable Version</span>
-                <span className="font-mono font-black text-[var(--text)]">1.5.6</span>
+                <span className="font-mono font-black text-[var(--text)]">1.6.0</span>
               </li>
               <li className="flex items-center justify-between">
                 <span className="font-bold text-[var(--muted)] uppercase tracking-tighter text-[10px]">Build Health</span>
@@ -159,6 +159,24 @@ export default function AboutPage() {
                 Open Source
               </a>
             </div>
+          </div>
+
+          <div className="rounded-3xl border border-[var(--border)] bg-[var(--bg-card)] p-8">
+            <h3 className="mb-4 text-xl font-black uppercase tracking-tighter text-[var(--accent)]">Roadmap</h3>
+            <ul className="space-y-3 text-xs font-bold text-[var(--muted)] uppercase tracking-widest">
+              <li className="flex items-center gap-2">
+                <div className="h-1.5 w-1.5 rounded-full bg-[var(--accent)]" />
+                AI Card Scanner (OCR)
+              </li>
+              <li className="flex items-center gap-2 opacity-50">
+                <div className="h-1.5 w-1.5 rounded-full bg-[var(--muted)]" />
+                Price Alert System
+              </li>
+              <li className="flex items-center gap-2 opacity-50">
+                <div className="h-1.5 w-1.5 rounded-full bg-[var(--muted)]" />
+                Multi-Currency Support
+              </li>
+            </ul>
           </div>
 
           <div className="rounded-3xl border border-[var(--border)] bg-[var(--bg-card)] p-8">

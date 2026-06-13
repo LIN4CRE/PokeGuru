@@ -1,9 +1,10 @@
-# 🃏 PokeGuru — The Ultimate Pokémon Tool
+# 🃏 PokeGuru — The Ultimate Pokémon TCG Tool
 
 [![Build & Deploy](https://github.com/LIN4CRE/PokeGuru/actions/workflows/deploy.yml/badge.svg)](https://github.com/LIN4CRE/PokeGuru/actions/workflows/deploy.yml)
-[![Version](https://img.shields.io/badge/Version-1.5.5-red.svg?style=flat-square)](https://github.com/LIN4CRE/PokeGuru/releases)
+[![Version](https://img.shields.io/badge/Version-1.6.0-red.svg?style=flat-square)](https://github.com/LIN4CRE/PokeGuru/releases)
+[![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg?style=flat-square)](https://opensource.org/licenses/MIT)
 
-**PokeGuru** is a lightning-fast Pokémon TCG database and portfolio tracker. Track your collection value, search 18,000+ cards, and explore the UK set history.
+**PokeGuru** is a professional-grade, lightning-fast Pokémon TCG database and portfolio tracker. Designed for collectors who value speed and accuracy, it provides real-time market data, deep historical UK set information, and a secure local "Vault" for collection tracking.
 
 ---
 
@@ -11,26 +12,47 @@
 
 ---
 
-## ✨ Features
+## ✨ Key Features
 
-*   🔍 **Instant Search** — Real-time market values for every card.
-*   🔒 **The Vault** — Build your collection and track total value in **£ (GBP)**.
-*   🇬🇧 **UK Wiki** — Complete history of every UK set since 1999.
-*   🏆 **PSA 10 Estimates** — Professional grading market data.
-*   📱 **Mobile App** — Use it on your phone like a native app.
+*   🔍 **High-Performance Search** — Instant access to over 18,000 cards with advanced filtering (types, rarity, HP, and more).
+*   🔒 **The Vault** — Securely track your personal collection with local-first storage. No account required.
+*   💷 **Live GBP Pricing** — Real-time market values automatically converted from USD to GBP for the UK market.
+*   🇬🇧 **Comprehensive UK Wiki** — A detailed chronological database of every UK English set release since 1999.
+*   🏆 **Professional Grading Data** — Exclusive PSA 10 average and maximum market value estimates for historic sets.
+*   📱 **PWA Ready** — Install PokeGuru as a native-feeling app on your iOS or Android device.
 
-## 📱 Use it as an App
-You don't need a separate APK! To use PokeGuru like a real app:
-1.  Open the **[Live Link](https://lin4cre.github.io/PokeGuru/#/)** on your phone.
-2.  Tap **'Share'** (iPhone) or the **'Three Dots'** (Android).
-3.  Tap **'Add to Home Screen'**.
+## 📱 Mobile Installation
+PokeGuru is designed to work perfectly on mobile. To use it like a native app:
+1.  Open the **[Live Link](https://lin4cre.github.io/PokeGuru/#/)** in your mobile browser.
+2.  **iOS**: Tap the **Share** button and select **"Add to Home Screen"**.
+3.  **Android**: Tap the **three dots** and select **"Install App"** or **"Add to Home Screen"**.
+
+## 🛠️ Technical Stack
+
+PokeGuru is built with modern, bleeding-edge web technologies for maximum performance:
+- **Framework**: [React 19](https://react.dev/)
+- **Build Tool**: [Vite 7](https://vitejs.dev/)
+- **Styling**: [Tailwind CSS 4](https://tailwindcss.com/)
+- **Language**: [TypeScript 5](https://www.typescriptlang.org/)
+- **Icons**: [Lucide React](https://lucide.dev/)
+- **Routing**: [React Router 7](https://reactrouter.com/)
+- **Data Source**: [Pokémon TCG API](https://pokemontcg.io/)
+
+## 🔍 Mastering Search
+Combine tags in the search bar to find exactly what you're looking for:
+| Tag | Description | Example |
+| :--- | :--- | :--- |
+| `types:` | Filter by energy type | `types:fire` |
+| `subtypes:` | Find Stage 2, VMAX, ex, etc. | `subtypes:vmax` |
+| `rarity:` | Target specific pull rates | `rarity:"Rare Holo"` |
+| `hp:` | Filter by hit points | `hp:[300 TO *]` |
+| `set.id:` | Search within a specific set | `set.id:base1` |
 
 ---
 
 ## 📥 Downloads & Health
-
-*   📥 **[Download Build (.zip)](https://github.com/LIN4CRE/PokeGuru/releases)**
-*   🐞 **[System Health (Green Ticks)](https://github.com/LIN4CRE/PokeGuru/actions)**
+*   📥 **[Releases & Build Downloads](https://github.com/LIN4CRE/PokeGuru/releases)**
+*   🐞 **[CI/CD Status & Logs](https://github.com/LIN4CRE/PokeGuru/actions)**
 
 ---
 
