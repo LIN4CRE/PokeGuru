@@ -1,4 +1,4 @@
-import { BrowserRouter, Routes, Route } from 'react-router-dom';
+import { HashRouter, Routes, Route } from 'react-router-dom';
 import ErrorBoundary from './components/UI/ErrorBoundary';
 import Layout from './components/Layout/Layout';
 import HomePage from './pages/HomePage';
@@ -16,21 +16,11 @@ import NotFoundPage from './pages/NotFoundPage';
  *
  * Built with React 19, TypeScript, and Tailwind CSS 4
  * Data powered by pokemontcg.io API
- *
- * Features:
- * - Advanced card search with Lucene-style field queries
- * - Browse all official TCG sets
- * - Detailed card info with real-time market prices
- * - 🇬🇧 UK Card Wiki — every English set from Base Set (1999) to today
- * - Card scanner UI (OCR-ready)
- * - Mobile-responsive dark theme
- * - In-memory + sessionStorage API caching
- * - Error boundary for resilient UX
  */
 export default function App() {
   return (
     <ErrorBoundary>
-      <BrowserRouter>
+      <HashRouter>
         <Routes>
           <Route path="/" element={<Layout />}>
             <Route index element={<HomePage />} />
@@ -44,7 +34,7 @@ export default function App() {
             <Route path="*" element={<NotFoundPage />} />
           </Route>
         </Routes>
-      </BrowserRouter>
+      </HashRouter>
     </ErrorBoundary>
   );
 }

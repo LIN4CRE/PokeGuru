@@ -7,7 +7,7 @@
 
 ---
 
-### 🚀 [VIEW THE LIVE SITE HERE](https://linacre.github.io/PokeGuru)
+### 🚀 [VIEW THE LIVE SITE HERE](https://linacre.github.io/PokeGuru/#/)
 
 ---
 
