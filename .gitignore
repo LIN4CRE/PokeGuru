@@ -9,5 +9,19 @@ Thumbs.db
 *.log
 npm-debug.log*
 
-# Dependencies (none required, but just in case)
+# Dependencies
 node_modules/
+
+# Build output
+dist/
+out/
+
+# Environment files
+.env
+.env.local
+.env.development.local
+.env.production.local
+
+# Coverage / test artifacts
+coverage/
+*.tsbuildinfo
