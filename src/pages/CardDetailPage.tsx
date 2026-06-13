@@ -1,6 +1,6 @@
 import { useState } from 'react';
 import { useParams, useNavigate, Link } from 'react-router-dom';
-import { ArrowLeft, ExternalLink, TrendingUp, Heart, Box } from 'lucide-react';
+import { ArrowLeft, ExternalLink, TrendingUp, Heart, Box, Share2, Check } from 'lucide-react';
 import { useCard, useCardSearch } from '../hooks/useApi';
 import { useTitle } from '../hooks/useTitle';
 import { getAllSets } from '../data/ukSets';
@@ -38,9 +38,29 @@ export default function CardDetailPage() {
   const { id } = useParams<{ id: string }>();
   const navigate = useNavigate();
   const [retryCount, setRetryCount] = useState(0);
+  const [copied, setCopied] = useState(false);
   const { data: card, loading, error } = useCard(id || '', retryCount);
   const { addToCollection, removeFromCollection, isInCollection } = useCollection();
   useTitle(card?.name);
+
+  const handleShare = async () => {
+    const url = `${window.location.origin}/PokeGuru/#/card/${card?.id}`;
+    try {
+      await navigator.clipboard.writeText(url);
+      setCopied(true);
+      setTimeout(() => setCopied(false), 2000);
+    } catch {
+      // Fallback for older browsers
+      const textarea = document.createElement('textarea');
+      textarea.value = url;
+      document.body.appendChild(textarea);
+      textarea.select();
+      document.execCommand('copy');
+      document.body.removeChild(textarea);
+      setCopied(true);
+      setTimeout(() => setCopied(false), 2000);
+    }
+  };
 
   // Related cards (same name)
   const { data: relatedData } = useCardSearch(
@@ -74,7 +94,7 @@ export default function CardDetailPage() {
 
   return (
     <div>
-      {/* Back Link & Collection Toggle */}
+      {/* Back Link & Toolbar */}
       <div className="mb-6 flex items-center justify-between">
         <button
           onClick={() => navigate(-1)}
@@ -84,17 +104,28 @@ export default function CardDetailPage() {
           Back
         </button>
 
-        <button
-          onClick={() => collected ? removeFromCollection(card.id) : addToCollection(card)}
-          className={`flex items-center gap-2 rounded-xl border px-4 py-2 text-sm font-bold transition-all active:scale-95 ${
-            collected
-              ? 'border-red-500/20 bg-red-500/10 text-red-500 hover:bg-red-500/20'
-              : 'border-[var(--border)] bg-[var(--bg-card)] text-[var(--muted)] hover:border-[var(--accent)] hover:text-[var(--text)]'
-          }`}
-        >
-          <Heart size={18} fill={collected ? "currentColor" : "none"} />
-          {collected ? 'In Collection' : 'Add to Collection'}
-        </button>
+        <div className="flex items-center gap-2">
+          <button
+            onClick={handleShare}
+            className="flex items-center gap-2 rounded-xl border border-[var(--border)] bg-[var(--bg-card)] px-4 py-2 text-sm font-bold text-[var(--muted)] transition-all hover:border-[var(--accent)] hover:text-[var(--text)] active:scale-95"
+            title="Copy card link"
+          >
+            {copied ? <Check size={18} className="text-[#10b981]" /> : <Share2 size={18} />}
+            {copied ? 'Copied!' : 'Share'}
+          </button>
+
+          <button
+            onClick={() => collected ? removeFromCollection(card.id) : addToCollection(card)}
+            className={`flex items-center gap-2 rounded-xl border px-4 py-2 text-sm font-bold transition-all active:scale-95 ${
+              collected
+                ? 'border-red-500/20 bg-red-500/10 text-red-500 hover:bg-red-500/20'
+                : 'border-[var(--border)] bg-[var(--bg-card)] text-[var(--muted)] hover:border-[var(--accent)] hover:text-[var(--text)]'
+            }`}
+          >
+            <Heart size={18} fill={collected ? "currentColor" : "none"} />
+            {collected ? 'In Collection' : 'Add to Collection'}
+          </button>
+        </div>
       </div>
 
       <div className="grid gap-8 md:grid-cols-[minmax(220px,360px)_1fr]">

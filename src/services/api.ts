@@ -127,12 +127,16 @@ export async function searchCards(
     type?: string;
     rarity?: string;
     supertype?: string;
+    setId?: string;
   } = {}
 ): Promise<ApiResponse<PokemonCard[]>> {
-  const { page = 1, pageSize = 24, orderBy = 'name', type, rarity, supertype } = options;
+  const { page = 1, pageSize = 24, orderBy = 'name', type, rarity, supertype, setId } = options;
 
   // Build query
   let q = buildSearchQuery(query);
+  if (setId) {
+    q = q ? `${q} set.id:${setId}` : `set.id:${setId}`;
+  }
   if (type) {
     q = q ? `${q} types:${type}` : `types:${type}`;
   }
@@ -216,6 +220,33 @@ function buildSearchQuery(input: string): string {
   // Remove quotes to prevent query issues
   const sanitized = trimmed.replace(/"/g, '');
   return `name:"${sanitized}*"`;
+}
+
+/**
+ * Fetch a random card by selecting a random page and picking a card from it
+ */
+export async function getRandomCard(): Promise<PokemonCard> {
+  // First, get total count with a minimal query
+  const countResponse = await apiRequest<ApiResponse<PokemonCard[]>>(
+    '/cards?q=supertype:pokemon&pageSize=1'
+  );
+  const total = countResponse.totalCount || 10000;
+
+  // Pick a random page (250 per page = max API page size)
+  const pageSize = 250;
+  const maxPage = Math.min(Math.ceil(total / pageSize), 100); // API max pages
+  const randomPage = Math.max(1, Math.floor(Math.random() * maxPage));
+
+  const response = await apiRequest<ApiResponse<PokemonCard[]>>(
+    `/cards?q=supertype:pokemon&page=${randomPage}&pageSize=${pageSize}&orderBy=name`
+  );
+
+  const cards = response.data;
+  if (!cards || cards.length === 0) {
+    throw new ApiError('No cards found for random selection', 404);
+  }
+
+  return cards[Math.floor(Math.random() * cards.length)];
 }
 
 /**

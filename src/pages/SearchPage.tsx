@@ -1,6 +1,6 @@
 import { useState } from 'react';
 import { useSearchParams } from 'react-router-dom';
-import { useCardSearch } from '../hooks/useApi';
+import { useCardSearch, useSets } from '../hooks/useApi';
 import { useTitle } from '../hooks/useTitle';
 import { getCardValueGBP } from '../utils/pricing';
 import type { CardType, SortOption } from '../types/pokemon';
@@ -61,15 +61,17 @@ export default function SearchPage() {
   const type = (searchParams.get('type') || '') as CardType;
   const rarity = searchParams.get('rarity') || '';
   const supertype = searchParams.get('supertype') || '';
+  const setId = searchParams.get('set') || '';
   const sort = (searchParams.get('sort') || '') as SortOption;
   const page = parseInt(searchParams.get('page') || '1', 10);
 
+  const { data: sets } = useSets();
   const { data, loading, error } = useCardSearch(
     query,
     type,
     sort,
     page,
-    { rarity, supertype },
+    { rarity, supertype, setId },
     retryCount
   );
 
@@ -108,7 +110,7 @@ export default function SearchPage() {
       {/* Header */}
       <div className="mb-4 flex flex-wrap items-baseline justify-between gap-3">
         <h1 className="text-xl font-semibold">
-          Results for "{query}"
+          {query ? `Results for "${query}"` : 'All Cards'}
         </h1>
         {data && (
           <span className="text-sm text-[var(--muted)]">
@@ -160,6 +162,20 @@ export default function SearchPage() {
               <option key={r} value={r}>
                 {r ? r : 'All Rarities'}
               </option>
+            ))}
+          </select>
+        </div>
+
+        <div className="flex flex-col gap-1.5 min-w-[140px] flex-1">
+          <label className="text-[10px] font-bold uppercase tracking-widest text-[var(--muted)] ml-1">Set</label>
+          <select
+            value={setId}
+            onChange={(e) => updateParams({ set: e.target.value })}
+            className="w-full rounded-xl border border-[var(--border)] bg-[var(--bg)]/50 px-3 py-2 text-sm font-bold text-[var(--text)] outline-none focus:border-[var(--accent)] transition-all"
+          >
+            <option value="">All Sets</option>
+            {sets?.map((s) => (
+              <option key={s.id} value={s.id}>{s.name}</option>
             ))}
           </select>
         </div>

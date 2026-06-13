@@ -1,8 +1,9 @@
 import { useParams, Link } from 'react-router-dom';
-import { ArrowLeft, Calendar, Layers, ArrowUpDown } from 'lucide-react';
+import { ArrowLeft, Calendar, Layers, ArrowUpDown, Wallet } from 'lucide-react';
 import { useState, useMemo } from 'react';
 import { useSetCards } from '../hooks/useApi';
 import { useTitle } from '../hooks/useTitle';
+import { useCollection } from '../hooks/useCollection';
 import { getCardValueGBP } from '../utils/pricing';
 import CardGrid from '../components/Cards/CardGrid';
 import Pagination from '../components/UI/Pagination';
@@ -15,7 +16,17 @@ export default function SetDetailPage() {
   const [retryCount, setRetryCount] = useState(0);
   const [sortBy, setSortBy] = useState<'number' | 'value_high' | 'value_low'>('number');
   const { data, loading, set, setError } = useSetCards(id || '', page, retryCount);
+  const { collection } = useCollection();
   useTitle(set?.name);
+
+  const ownedInSet = useMemo(() => {
+    if (!data?.data) return [];
+    const ownedIds = new Set(collection.map(c => c.card.id));
+    return data.data.filter(card => ownedIds.has(card.id));
+  }, [data, collection]);
+
+  const ownedCount = ownedInSet.length;
+  const totalCards = set?.total || data?.totalCount || 0;
 
   const sortedCards = useMemo(() => {
     if (!data?.data) return [];
@@ -72,7 +83,7 @@ export default function SetDetailPage() {
               className="h-16 w-auto object-contain"
             />
           )}
-          <div>
+          <div className="flex-1">
             <h1 className="text-2xl font-bold">{set.name}</h1>
             <div className="mt-1 flex flex-wrap items-center gap-4 text-sm text-[var(--muted)]">
               <span>{set.series}</span>
@@ -87,6 +98,22 @@ export default function SetDetailPage() {
                 {set.total} cards
               </span>
             </div>
+
+            {/* Collection Progress */}
+            {ownedCount > 0 && (
+              <div className="mt-3 flex items-center gap-2">
+                <Wallet size={14} className="text-[var(--accent)]" />
+                <span className="text-xs font-bold text-[var(--accent)]">
+                  {ownedCount} / {totalCards} in Vault
+                </span>
+                <div className="h-2 w-32 overflow-hidden rounded-full bg-[var(--bg-soft)] border border-[var(--border)]">
+                  <div
+                    className="h-full rounded-full bg-gradient-to-r from-[var(--accent)] to-[var(--accent-2)] transition-all duration-500"
+                    style={{ width: `${Math.round((ownedCount / totalCards) * 100)}%` }}
+                  />
+                </div>
+              </div>
+            )}
           </div>
         </div>
       )}

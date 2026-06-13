@@ -5,7 +5,7 @@
  * with loading states and error handling
  */
 
-import { useState, useEffect, useRef } from 'react';
+import { useState, useEffect, useRef, useCallback } from 'react';
 import type { ApiResponse, PokemonCard, PokemonSet, CardType, SortOption } from '../types/pokemon';
 import * as api from '../services/api';
 
@@ -61,7 +61,7 @@ export function useCardSearch(
   type: CardType,
   sort: SortOption,
   page: number,
-  filters: { rarity?: string; supertype?: string } = {},
+  filters: { rarity?: string; supertype?: string; setId?: string } = {},
   retryKey?: number
 ) {
   const [state, setState] = useState<UseApiState<ApiResponse<PokemonCard[]>>>({
@@ -90,6 +90,7 @@ export function useCardSearch(
           type: type || undefined,
           rarity: filters.rarity || undefined,
           supertype: filters.supertype || undefined,
+          setId: filters.setId || undefined,
         });
 
         // Only update if this is still the latest request
@@ -254,6 +255,27 @@ export function useSetCards(setId: string, page: number = 1, retryKey?: number) 
     set,
     setError: setError || state.error,
   };
+}
+
+/**
+ * Hook for fetching a random card (returns a trigger function)
+ */
+export function useRandomCard() {
+  const [loading, setLoading] = useState(false);
+
+  const getRandom = useCallback(async (): Promise<PokemonCard | null> => {
+    setLoading(true);
+    try {
+      const card = await api.getRandomCard();
+      return card;
+    } catch {
+      return null;
+    } finally {
+      setLoading(false);
+    }
+  }, []);
+
+  return { getRandom, loading };
 }
 
 /**
