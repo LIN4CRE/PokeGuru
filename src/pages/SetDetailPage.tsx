@@ -2,6 +2,7 @@ import { useParams, Link } from 'react-router-dom';
 import { ArrowLeft, Calendar, Layers } from 'lucide-react';
 import { useState } from 'react';
 import { useSetCards } from '../hooks/useApi';
+import { useTitle } from '../hooks/useTitle';
 import CardGrid from '../components/Cards/CardGrid';
 import Pagination from '../components/UI/Pagination';
 import LoadingSpinner from '../components/UI/LoadingSpinner';
@@ -12,6 +13,7 @@ export default function SetDetailPage() {
   const [page, setPage] = useState(1);
   const [retryCount, setRetryCount] = useState(0);
   const { data, loading, set, setError } = useSetCards(id || '', page, retryCount);
+  useTitle(set?.name);
 
   const handlePageChange = (newPage: number) => {
     setPage(newPage);

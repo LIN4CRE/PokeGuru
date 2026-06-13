@@ -1,6 +1,7 @@
 import { useState } from 'react';
 import { useSearchParams } from 'react-router-dom';
 import { useCardSearch } from '../hooks/useApi';
+import { useTitle } from '../hooks/useTitle';
 import type { CardType, SortOption } from '../types/pokemon';
 import CardGrid from '../components/Cards/CardGrid';
 import Pagination from '../components/UI/Pagination';
@@ -53,6 +54,7 @@ export default function SearchPage() {
   const [retryCount, setRetryCount] = useState(0);
 
   const query = searchParams.get('q') || '';
+  useTitle(query ? `Search: ${query}` : 'Search');
   const type = (searchParams.get('type') || '') as CardType;
   const rarity = searchParams.get('rarity') || '';
   const supertype = searchParams.get('supertype') || '';

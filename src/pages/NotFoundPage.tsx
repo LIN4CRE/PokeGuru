@@ -1,7 +1,9 @@
 import { Link } from 'react-router-dom';
 import { Home, Search } from 'lucide-react';
+import { useTitle } from '../hooks/useTitle';
 
 export default function NotFoundPage() {
+  useTitle('Page Not Found');
   return (
     <div className="flex flex-col items-center justify-center py-20 text-center">
       <div className="mb-6 text-8xl">🔍</div>

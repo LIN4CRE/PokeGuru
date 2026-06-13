@@ -1,6 +1,7 @@
 import { useState, useRef, useCallback } from 'react';
 import { Camera, Upload, Search, AlertCircle, Loader2 } from 'lucide-react';
 import { useNavigate } from 'react-router-dom';
+import { useTitle } from '../hooks/useTitle';
 
 /**
  * Card Scanner Page
@@ -16,6 +17,7 @@ import { useNavigate } from 'react-router-dom';
  */
 
 export default function ScannerPage() {
+  useTitle('Card Scanner');
   const [image, setImage] = useState<string | null>(null);
   const [isProcessing, setIsProcessing] = useState(false);
   const [extractedText, setExtractedText] = useState('');

@@ -1,10 +1,12 @@
 import { useState, useMemo } from 'react';
 import { useSets } from '../hooks/useApi';
+import { useTitle } from '../hooks/useTitle';
 import SetTile from '../components/Sets/SetTile';
 import LoadingSpinner from '../components/UI/LoadingSpinner';
 import ErrorMessage from '../components/UI/ErrorMessage';
 
 export default function SetsPage() {
+  useTitle('All Sets');
   const [retryCount, setRetryCount] = useState(0);
   const { data: sets, loading, error } = useSets(retryCount);
   const [searchQuery, setSearchQuery] = useState('');
