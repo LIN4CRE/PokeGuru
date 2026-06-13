@@ -1,7 +1,7 @@
 # 🃏 PokeGuru — The Ultimate Pokémon Tool
 
 [![Build & Deploy](https://github.com/LIN4CRE/PokeGuru/actions/workflows/deploy.yml/badge.svg)](https://github.com/LIN4CRE/PokeGuru/actions/workflows/deploy.yml)
-[![Version](https://img.shields.io/badge/Version-1.5.4-red.svg?style=flat-square)](https://github.com/LIN4CRE/PokeGuru/releases)
+[![Version](https://img.shields.io/badge/Version-1.5.5-red.svg?style=flat-square)](https://github.com/LIN4CRE/PokeGuru/releases)
 
 **PokeGuru** is a lightning-fast Pokémon TCG database and portfolio tracker. Track your collection value, search 18,000+ cards, and explore the UK set history.
 
