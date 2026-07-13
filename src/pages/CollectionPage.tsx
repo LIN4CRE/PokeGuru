@@ -3,6 +3,7 @@ import { useTitle } from '../hooks/useTitle';
 import { getCardValueGBP, formatGBP } from '../utils/pricing';
 import { Wallet, Trash2, ArrowUpDown, Info } from 'lucide-react';
 import { useMemo, useState } from 'react';
+import { Link } from 'react-router-dom';
 
 export default function CollectionPage() {
   useTitle('My Collection');
@@ -31,9 +32,9 @@ export default function CollectionPage() {
         <p className="mt-2 max-w-md text-[var(--muted)]">
           Start adding cards to your personal collection to track their total market value in GBP (£) and keep them all in one place.
         </p>
-        <a href="#/" className="mt-8 rounded-xl bg-[var(--accent)] px-8 py-3 font-bold text-white hover:bg-[#dc2626] transition-all">
+        <Link to="/search" className="mt-8 rounded-xl bg-[var(--accent)] px-8 py-3 font-bold text-white hover:bg-[#dc2626] transition-all">
           Browse Cards
-        </a>
+        </Link>
       </div>
     );
   }
@@ -83,7 +84,7 @@ export default function CollectionPage() {
       <div className="grid grid-cols-2 gap-4 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 xl:grid-cols-6">
         {sortedItems.map((item) => (
           <div key={item.card.id} className="group relative">
-            <a href={`#/card/${item.card.id}`} className="block">
+            <Link to={`/card/${item.card.id}`} className="block">
               <div className="card-glow overflow-hidden rounded-[var(--radius)]">
                 <img
                   src={item.card.images.small}
@@ -96,7 +97,7 @@ export default function CollectionPage() {
                 <h3 className="truncate text-sm font-bold text-[var(--text)]">{item.card.name}</h3>
                 <p className="text-xs font-bold text-[#10b981]">{formatGBP(getCardValueGBP(item.card))}</p>
               </div>
-            </a>
+            </Link>
             <button
               onClick={() => removeFromCollection(item.card.id)}
               className="absolute -right-2 -top-2 z-10 flex h-8 w-8 items-center justify-center rounded-full border border-[var(--border)] bg-[var(--bg-card)] text-red-400 shadow-xl opacity-0 transition-opacity group-hover:opacity-100 hover:bg-red-400 hover:text-white"

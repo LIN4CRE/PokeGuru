@@ -42,7 +42,7 @@ export default class ErrorBoundary extends Component<Props, State> {
           <button
             onClick={() => {
               this.setState({ hasError: false, error: null });
-              window.location.hash = '/';
+              window.location.href = '/PokeGuru/';
             }}
             className="mt-4 rounded-lg bg-[var(--accent)] px-6 py-2.5 font-medium text-white hover:bg-[#dc2626] transition-colors"
           >

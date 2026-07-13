@@ -44,7 +44,7 @@ export default function CardDetailPage() {
   useTitle(card?.name);
 
   const handleShare = async () => {
-    const url = `${window.location.origin}/PokeGuru/#/card/${card?.id}`;
+    const url = `${window.location.origin}/PokeGuru/card/${card?.id}`;
     try {
       await navigator.clipboard.writeText(url);
       setCopied(true);

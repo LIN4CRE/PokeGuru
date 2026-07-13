@@ -1,4 +1,4 @@
-import { HashRouter, Routes, Route } from 'react-router-dom';
+import { BrowserRouter, Routes, Route } from 'react-router-dom';
 import ErrorBoundary from './components/UI/ErrorBoundary';
 import Layout from './components/Layout/Layout';
 import HomePage from './pages/HomePage';
@@ -21,7 +21,7 @@ import NotFoundPage from './pages/NotFoundPage';
 export default function App() {
   return (
     <ErrorBoundary>
-      <HashRouter>
+      <BrowserRouter basename="/PokeGuru">
         <Routes>
           <Route path="/" element={<Layout />}>
             <Route index element={<HomePage />} />
@@ -36,7 +36,7 @@ export default function App() {
             <Route path="*" element={<NotFoundPage />} />
           </Route>
         </Routes>
-      </HashRouter>
+      </BrowserRouter>
     </ErrorBoundary>
   );
 }
