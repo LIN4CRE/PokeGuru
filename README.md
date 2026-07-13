@@ -1,3 +1,5 @@
+<p align="center"><img src="https://raw.githubusercontent.com/LIN4CRE/PokeGuru/main/.github/banner.png" alt="PokeGuru banner" width="100%"></p>
+
 <div align="center">
 
 # 🃏 PokeGuru — The Pokémon Card Guru
