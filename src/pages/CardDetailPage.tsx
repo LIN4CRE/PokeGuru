@@ -9,6 +9,7 @@ import { getCardValueGBP, formatGBP, formatGBPFromUSD } from '../utils/pricing';
 import LoadingSpinner from '../components/UI/LoadingSpinner';
 import ErrorMessage from '../components/UI/ErrorMessage';
 import CardGrid from '../components/Cards/CardGrid';
+import JsonLd from '../components/UI/JsonLd';
 import type { PokemonCard, TCGPlayerPrice } from '../types/pokemon';
 
 function getBestPrice(card: PokemonCard): { label: string; price: TCGPlayerPrice } | null {
@@ -92,8 +93,29 @@ export default function CardDetailPage() {
   const wikiSet = wikiSets.find(s => s.id === card.set.id);
   const collected = isInCollection(card.id);
 
+  const priceGbp = card ? getCardValueGBP(card) : 0;
+  const productLd = card ? {
+    '@context': 'https://schema.org',
+    '@type': 'Product',
+    name: `${card.name}${card.set?.name ? ` — ${card.set.name}` : ''}`,
+    image: card.images?.large || card.images?.small,
+    category: 'Trading Card Game > Pokémon TCG',
+    brand: { '@type': 'Brand', name: 'Pokémon TCG' },
+    url: `https://lin4cre.github.io/PokeGuru/card/${card.id}`,
+    ...(priceGbp > 0 ? {
+      offers: {
+        '@type': 'Offer',
+        priceCurrency: 'GBP',
+        price: priceGbp.toFixed(2),
+        availability: 'https://schema.org/InStock',
+        url: `https://lin4cre.github.io/PokeGuru/card/${card.id}`,
+      },
+    } : {}),
+  } : null;
+
   return (
     <div>
+      {productLd && <JsonLd id="product" data={productLd} />}
       {/* Back Link & Toolbar */}
       <div className="mb-6 flex items-center justify-between">
         <button
@@ -133,8 +155,11 @@ export default function CardDetailPage() {
         <div>
           <img
             src={card.images.large || card.images.small}
-            alt={card.name}
-            className="w-full rounded-2xl shadow-[var(--shadow)]"
+            alt={`${card.name}${card.set?.name ? ` — ${card.set.name}` : ''}`}
+            width={745}
+            height={1040}
+            decoding="async"
+            className="w-full rounded-2xl shadow-[var(--shadow)] aspect-[745/1040] object-contain"
           />
         </div>
 

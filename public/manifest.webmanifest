@@ -1,0 +1,14 @@
+{
+  "name": "PokeGuru — The Pokémon Card Guru",
+  "short_name": "PokeGuru",
+  "description": "Lightning-fast Pokémon TCG card database with UK market prices in GBP, set history and advanced search.",
+  "start_url": "/PokeGuru/",
+  "scope": "/PokeGuru/",
+  "display": "standalone",
+  "background_color": "#0f1115",
+  "theme_color": "#0f1115",
+  "icons": [
+    { "src": "/PokeGuru/favicon.svg", "sizes": "any", "type": "image/svg+xml", "purpose": "any" },
+    { "src": "/PokeGuru/og.png", "sizes": "1200x630", "type": "image/png", "purpose": "any" }
+  ]
+}
