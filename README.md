@@ -1,5 +1,5 @@
 <p align="center">
-  <img src="banner.png" alt="PokeGuru Banner" width="100%">
+  <img src="assets/banner.svg" alt="PokeGuru Banner" width="100%">
 </p>
 
 <p align="center">
