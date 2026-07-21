@@ -1,5 +1,4 @@
 <p align="center"><img width="1456" height="720" alt="PokeGuru-banner" src="https://github.com/user-attachments/assets/81a0d4a2-091c-40cb-a0cf-7e87a10b9189" />
-" alt="PokeGuru banner" width="100%"></p>
 
 <div align="center">
 
