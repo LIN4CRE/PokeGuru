@@ -1,62 +1,72 @@
-<p align="center"><img width="1456" height="720" alt="PokeGuru-banner" src="https://github.com/user-attachments/assets/81a0d4a2-091c-40cb-a0cf-7e87a10b9189" />
+<p align="center">
+  <img src="banner.png" alt="PokeGuru Banner" width="100%">
+</p>
 
-<div align="center">
-
-# 🃏 PokeGuru — The Pokémon Card Guru
-
-**A lightning-fast Pokémon TCG database with real UK market prices in GBP (£),
-full set history, and advanced search.**
-
-[![Live Demo](https://img.shields.io/badge/Live_Demo-PokeGuru-f5a524?style=for-the-badge&logo=github)](https://lin4cre.github.io/PokeGuru/)
-[![License: MIT](https://img.shields.io/badge/License-MIT-blue.svg?style=for-the-badge)](LICENSE)
-![TypeScript](https://img.shields.io/badge/TypeScript-3178C6?style=for-the-badge&logo=typescript&logoColor=white)
-![Vite](https://img.shields.io/badge/Vite-646CFF?style=for-the-badge&logo=vite&logoColor=white)
-
-[**🚀 Try it live →**](https://lin4cre.github.io/PokeGuru/)
-
-</div>
+<p align="center">
+  <a href="https://lin4cre.github.io/PokeGuru/"><img src="https://img.shields.io/badge/live-PokeGuru-F59E0B?style=for-the-badge&logo=google-chrome&logoColor=white"></a>
+  <img src="https://img.shields.io/badge/React_19-20232A?style=for-the-badge&logo=react&logoColor=61DAFB">
+  <img src="https://img.shields.io/badge/TypeScript-3178C6?style=for-the-badge&logo=typescript&logoColor=white">
+  <img src="https://img.shields.io/badge/Vite-646CFF?style=for-the-badge&logo=vite&logoColor=white">
+  <img src="https://img.shields.io/badge/Tailwind_CSS-38BDF8?style=for-the-badge&logo=tailwindcss&logoColor=white">
+  <img src="https://img.shields.io/badge/license-MIT-34D399?style=for-the-badge">
+</p>
 
 ---
 
-## ✨ Features
+# 🃏 PokeGuru — UK Pokémon TCG Intelligence & Portfolio Vault
 
-- **⚡ Lightning-fast search** — find any card instantly, with advanced query
-  syntax (e.g. `rarity:"Special Illustration Rare"`).
-- **💷 UK market pricing in GBP (£)** — prices tuned for the UK collector, not
-  just USD.
-- **🗃️ The Vault** — track your personal collection and see your live portfolio
-  value.
-- **📚 UK Wiki** — explore 126 iconic UK sets from 1999 to today.
-- **🔍 All Sets** — browse every expansion, including modern Japanese releases.
-- **✨ Chase Cards** — surface the rarest Special Illustration Rares at a glance.
-- **📱 Responsive** — works great on desktop and mobile.
+**PokeGuru** is a high-performance Pokémon Trading Card Game database and real-time portfolio tracker built with **React 19**, **TypeScript**, **Vite**, and **Tailwind CSS**. Features UK GBP (£) price conversion, advanced query syntax (`rarity:"Special Illustration Rare"`), full set archives (1999–Present), and local IndexedDB portfolio tracking.
 
-## 🛠️ Tech stack
+---
 
-- **React + TypeScript** (Vite build)
-- Client-side routing (hash router) for zero-config GitHub Pages hosting
-- Pokémon TCG card data + UK pricing layer
+## ⚡ Core Capabilities
 
-## 🚀 Getting started
+- **💷 Real-Time UK GBP (£) Pricing:** Currency conversions tailored for UK collectors and card trade valuations.
+- **🗃️ Portfolio Vault:** Track personal binder collections, card condition grading, and real-time total portfolio valuation.
+- **⚡ Advanced Search Engine:** Search across 15,000+ cards using exact attribute selectors, expansion codes, and illustrator names.
+- **📚 Complete UK Set Wiki:** Explore 126 iconic UK card sets from Base Set (1999) to modern Japanese promos and Special Illustration Rares.
+- **📱 Responsive PWA Interface:** Optimized layout for high-density desktop trading and mobile scanning.
+
+---
+
+## 🛠️ Architecture & Tech Stack
+
+- **Frontend Framework:** React 19 + TypeScript
+- **Bundler:** Vite 6
+- **Routing:** HashRouter for zero-config GitHub Pages edge distribution
+- **Styling:** Tailwind CSS + Lucide Icons
+- **Persistence:** LocalStorage & IndexedDB
+
+---
+
+## 🚀 Quick Start
 
 ```bash
+# Clone repository
+git clone https://github.com/LIN4CRE/PokeGuru.git
+cd PokeGuru
+
+# Install dependencies
 npm install
-npm run dev      # start the dev server
-npm run build    # production build
+
+# Start development server
+npm run dev
+
+# Build production bundle
+npm run build
 ```
 
-The app is a static SPA — the production build in `dist/` deploys anywhere
-(GitHub Pages, Netlify, Vercel).
+---
 
-## 📸 Screenshots
+## 👨‍💻 Author & Profile
 
-> _Add a screenshot or GIF here — e.g. the search page and The Vault._
-> `docs/screenshot.png`
+**David Linacre** — *Software Systems Architect & Developer*  
+- 🌐 [linacre.site](https://www.linacre.site)  
+- 🐙 [GitHub Profile](https://github.com/LIN4CRE)  
+- ☕ [Sponsor on PayPal](https://paypal.me/DLinacre16)  
+
+---
 
 ## 📄 License
-
-[MIT](LICENSE) © David Linacre · Built at [linacre.site](https://www.linacre.site/)
-
-<sub>Pokémon and the Pokémon TCG are trademarks of Nintendo / Creatures Inc. /
-GAME FREAK inc. This is an unofficial fan-made tool and is not affiliated with or
-endorsed by them.</sub>
+Licensed under the [MIT License](LICENSE).  
+*Pokémon and Pokémon TCG are trademarks of Nintendo, Creatures Inc., and GAME FREAK.*
